@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solved", "Solved", "{B40253
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{F8AFB474-A5D2-4FE9-9AA8-A3A7035433D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day01", "Day01 - Historian Hysteria\Day01.csproj", "{4F573463-F8FC-44C1-A55B-3BA1D72B6031}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,5 +22,9 @@ Global
 		{F8AFB474-A5D2-4FE9-9AA8-A3A7035433D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8AFB474-A5D2-4FE9-9AA8-A3A7035433D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8AFB474-A5D2-4FE9-9AA8-A3A7035433D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F573463-F8FC-44C1-A55B-3BA1D72B6031}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F573463-F8FC-44C1-A55B-3BA1D72B6031}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F573463-F8FC-44C1-A55B-3BA1D72B6031}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F573463-F8FC-44C1-A55B-3BA1D72B6031}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
