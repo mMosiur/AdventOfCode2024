@@ -24,6 +24,8 @@ if (-not $sessionToken) {
     exit 1
 }
 
+Write-Verbose "AOC session token: $sessionToken"
+
 $originalDirectory = Get-Location
 
 # Populate directory from cache directory

@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Day01 - Historian Hysteria\Day01.csproj" />
+    <ProjectReference Include="..\Day02 - Red-Nosed Reports\Day02.csproj" />
   </ItemGroup>
 
 </Project>
