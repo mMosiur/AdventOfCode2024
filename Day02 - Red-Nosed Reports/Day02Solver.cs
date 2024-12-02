@@ -10,10 +10,12 @@ public sealed class Day02Solver : DaySolver<Day02SolverOptions>
     public override string Title => "Red-Nosed Reports";
 
     private readonly IReadOnlyList<Report> _reports;
+    private readonly ReportChecker _reportChecker;
 
     public Day02Solver(Day02SolverOptions options) : base(options)
     {
         _reports = InputReader.Read(Input);
+        _reportChecker = new(options.MinAbsSafeDifference, options.MaxAbsSafeDifference);
     }
 
     public Day02Solver(Action<Day02SolverOptions> configure) : this(DaySolverOptions.FromConfigureAction(configure))
@@ -26,13 +28,13 @@ public sealed class Day02Solver : DaySolver<Day02SolverOptions>
 
     public override string SolvePart1()
     {
-        var reportChecker = new ReportChecker(Options.MinAbsSafeDifference, Options.MaxAbsSafeDifference);
-        int safeReportsCount = _reports.Count(reportChecker.IsSafe);
+        int safeReportsCount = _reports.Count(r => _reportChecker.IsSafe(r));
         return safeReportsCount.ToString();
     }
 
     public override string SolvePart2()
     {
-        return "UNSOLVED";
+        int safeReportsCount = _reports.Count(r => _reportChecker.IsSafe(r, allowSingleUnsafeLevel: true));
+        return safeReportsCount.ToString();
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode.Year2024.Day02.Puzzle;
 
-internal class Report(IReadOnlyList<int> levels)
+internal class Report(List<int> levels)
 {
-    public IReadOnlyList<int> Levels { get; } = levels;
+    public List<int> Levels { get; } = levels;
 }
