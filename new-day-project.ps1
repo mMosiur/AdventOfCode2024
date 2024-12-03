@@ -14,14 +14,14 @@ if ($day -notmatch '^(day)?(\d\d?)$')
     Write-Error "Invalid day number"
     exit 1
 }
-$day = [int]$Matches[2]
-if ($day -lt 1 -or $day -gt 25)
+$dayNumber = [int]$Matches[2]
+if (($dayNumber -lt 1) -or ($dayNumber -gt 25))
 {
-    Write-Error "Invalid day number, available days are 1 to 25 (got $day)"
+    Write-Error "Invalid day number, available days are 1 to 25 (got $dayNumber)"
     exit 1
 }
-$day = '{0:d2}' -f [int]$day
-$day = "Day$day"
+$dayString = '{0:d2}' -f [int]$dayNumber
+$dayString = "Day$dayString"
 
 if (-not $dayTitle)
 {
@@ -34,17 +34,17 @@ if (-not $dayTitle)
 
 if (-not $dayTitle)
 {
-    dotnet new aocday --year $year -o "$day"
-    dotnet sln add ".\$day\"
+    dotnet new aocday --year $year -o "$dayString"
+    dotnet sln add ".\$dayString\"
     Set-Location Tests
-    dotnet add reference "..\$day"
+    dotnet add reference "..\$dayString"
     Set-Location ..
 }
 else
 {
-    dotnet new aocday --year $year -o "$day" --title "$dayTitle"
-    $folderName = "$day - $dayTitle"
-    Rename-Item "$day" "$folderName"
+    dotnet new aocday --year $year -o "$dayString" --title "$dayTitle"
+    $folderName = "$dayString - $dayTitle"
+    Rename-Item "$dayString" "$folderName"
     dotnet sln add ".\$folderName\"
     Set-Location Tests
     dotnet add reference "..\$folderName"
