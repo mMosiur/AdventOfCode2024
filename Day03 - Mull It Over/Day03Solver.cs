@@ -18,13 +18,15 @@ public sealed class Day03Solver : DaySolver<Day03SolverOptions>
 
 	public override string SolvePart1()
 	{
-		var diagnoser = new CorruptedMemoryDiagnoser();
+		var diagnoser = new CorruptedMemoryDiagnoser(ignoreConditionals: true);
 		int result = diagnoser.RetrieveMulInstructions(Input).Select(i => i.Result).Sum();
 		return result.ToString();
 	}
 
 	public override string SolvePart2()
 	{
-		return "UNSOLVED";
+		var diagnoser = new CorruptedMemoryDiagnoser(ignoreConditionals: false);
+		int result = diagnoser.RetrieveMulInstructions(Input).Select(i => i.Result).Sum();
+		return result.ToString();
 	}
 }
