@@ -26,13 +26,15 @@ public sealed class Day04Solver : DaySolver<Day04SolverOptions>
 
     public override string SolvePart1()
     {
-        var solver = new WordSearchSolver(_wordSearchPuzzle);
+        var solver = new SimpleWordSearchSolver(_wordSearchPuzzle);
         int wordCount = solver.CountWords(Options.WordSearchTargetWord);
         return wordCount.ToString();
     }
 
     public override string SolvePart2()
     {
-        return "UNSOLVED";
+        var solver = new XWordSearchSolver(_wordSearchPuzzle);
+        int wordCount = solver.CountWords(Options.XWordSearchTargetWord);
+        return wordCount.ToString();
     }
 }

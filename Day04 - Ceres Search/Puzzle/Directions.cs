@@ -22,6 +22,14 @@ internal static class Directions
         Down,
         DownLeft,
         Left,
-        UpLeft
+        UpLeft,
+    ];
+
+    public static ImmutableArray<Vector> Corners { get; } =
+    [
+        UpRight,
+        DownRight,
+        DownLeft,
+        UpLeft,
     ];
 }

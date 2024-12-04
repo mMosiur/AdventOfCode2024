@@ -1,6 +1,6 @@
 namespace AdventOfCode.Year2024.Day04.Puzzle;
 
-internal sealed class WordSearchSolver(WordSearchPuzzle puzzle)
+internal sealed class SimpleWordSearchSolver(WordSearchPuzzle puzzle)
 {
     private readonly WordSearchPuzzle _puzzle = puzzle;
 
