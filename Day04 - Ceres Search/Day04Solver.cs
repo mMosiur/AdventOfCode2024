@@ -1,4 +1,5 @@
 using AdventOfCode.Common;
+using AdventOfCode.Year2024.Day04.Puzzle;
 
 namespace AdventOfCode.Year2024.Day04;
 
@@ -8,8 +9,11 @@ public sealed class Day04Solver : DaySolver<Day04SolverOptions>
     public override int Day => 4;
     public override string Title => "Ceres Search";
 
+    private readonly WordSearchPuzzle _wordSearchPuzzle;
+
     public Day04Solver(Day04SolverOptions options) : base(options)
     {
+        _wordSearchPuzzle = InputReader.Read(InputLines);
     }
 
     public Day04Solver(Action<Day04SolverOptions> configure) : this(DaySolverOptions.FromConfigureAction(configure))
@@ -22,7 +26,9 @@ public sealed class Day04Solver : DaySolver<Day04SolverOptions>
 
     public override string SolvePart1()
     {
-        return "UNSOLVED";
+        var solver = new WordSearchSolver(_wordSearchPuzzle);
+        int wordCount = solver.CountWords(Options.WordSearchTargetWord);
+        return wordCount.ToString();
     }
 
     public override string SolvePart2()
