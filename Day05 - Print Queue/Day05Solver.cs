@@ -9,12 +9,18 @@ public sealed class Day05Solver : DaySolver<Day05SolverOptions>
     public override int Day => 5;
     public override string Title => "Print Queue";
 
-    private readonly PageOrderingRules _pageOrderingRules;
     private readonly IReadOnlyList<ManualUpdate> _manualUpdates;
+    private readonly ManualUpdateOrderValidator _validator;
+    private readonly ManualUpdateSorter _sorter;
+
+    private List<ManualUpdate>? _correctlyOrderedUpdates;
+    private List<ManualUpdate>? _incorrectlyOrderedUpdates;
 
     public Day05Solver(Day05SolverOptions options) : base(options)
     {
-        (_pageOrderingRules, _manualUpdates) = InputReader.Read(Input);
+        (var pageOrderingRules, _manualUpdates) = InputReader.Read(Input);
+        _validator = new(pageOrderingRules);
+        _sorter = new(pageOrderingRules);
     }
 
     public Day05Solver(Action<Day05SolverOptions> configure) : this(DaySolverOptions.FromConfigureAction(configure))
@@ -27,15 +33,27 @@ public sealed class Day05Solver : DaySolver<Day05SolverOptions>
 
     public override string SolvePart1()
     {
-        var validator = new UpdateOrderValidator(_pageOrderingRules);
-        int result = validator.FilterCorrectlyOrderedUpdates(_manualUpdates)
-            .Select(mu => mu.PageNumbers[mu.PageNumbers.Count / 2])
-            .Sum();
-        return result.ToString();
+        if (_correctlyOrderedUpdates is null)
+        {
+            (_correctlyOrderedUpdates, _incorrectlyOrderedUpdates) = _validator.SplitIntoOrderedAndUnordered(_manualUpdates);
+        }
+
+        int correctlyOrderedMiddlePageNumbersSum = _correctlyOrderedUpdates.Sum(mu => mu.MiddlePageNumer);
+
+        return correctlyOrderedMiddlePageNumbersSum.ToString();
     }
 
     public override string SolvePart2()
     {
-        return "UNSOLVED";
+        if (_incorrectlyOrderedUpdates is null)
+        {
+            (_correctlyOrderedUpdates, _incorrectlyOrderedUpdates) = _validator.SplitIntoOrderedAndUnordered(_manualUpdates);
+        }
+
+        int reorderedMiddlePageNumbersSum = _incorrectlyOrderedUpdates
+            .Select<ManualUpdate, ManualUpdate>(iou => _sorter.Reordered(iou))
+            .Sum(mu => mu.MiddlePageNumer);
+
+        return reorderedMiddlePageNumbersSum.ToString();
     }
 }

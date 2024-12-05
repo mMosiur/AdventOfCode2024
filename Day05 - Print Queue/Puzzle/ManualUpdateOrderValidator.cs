@@ -1,17 +1,28 @@
 ﻿namespace AdventOfCode.Year2024.Day05.Puzzle;
 
-internal sealed class UpdateOrderValidator
+internal sealed class ManualUpdateOrderValidator
 {
     private readonly PageOrderingRules _pageOrderingRules;
 
-    public UpdateOrderValidator(PageOrderingRules pageOrderingRules)
+    public ManualUpdateOrderValidator(PageOrderingRules pageOrderingRules)
     {
         _pageOrderingRules = pageOrderingRules;
     }
 
-    public IEnumerable<ManualUpdate> FilterCorrectlyOrderedUpdates(IEnumerable<ManualUpdate> manualUpdates)
+    public (List<ManualUpdate> CorrectlyOrderedUpdates, List<ManualUpdate> IncorrectlyOrderedUpdates) SplitIntoOrderedAndUnordered(IEnumerable<ManualUpdate> manualUpdates)
     {
-        return manualUpdates.Where(IsManualUpdateInCorrectOrder);
+        var correctlyOrderedUpdates = new List<ManualUpdate>();
+        var incorrectlyOrderedUpdates = new List<ManualUpdate>();
+
+        foreach (var manualUpdate in manualUpdates)
+        {
+            var updatesList = IsManualUpdateInCorrectOrder(manualUpdate)
+                ? correctlyOrderedUpdates
+                : incorrectlyOrderedUpdates;
+            updatesList.Add(manualUpdate);
+        }
+
+        return (correctlyOrderedUpdates, incorrectlyOrderedUpdates);
     }
 
     public bool IsManualUpdateInCorrectOrder(ManualUpdate manualUpdate)
