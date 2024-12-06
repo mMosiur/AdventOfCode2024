@@ -31,7 +31,11 @@ internal sealed class LabMap
         yield return guard.Position;
         while (_bounds.Contains(guard.NextPosition))
         {
-            if (!TryMoveGuardAhead(guard))
+            if (TryMoveGuardAhead(guard))
+            {
+                yield return guard.Position;
+            }
+            else
             {
                 guard.TurnRight();
             }
