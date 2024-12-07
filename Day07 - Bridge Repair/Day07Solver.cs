@@ -27,7 +27,10 @@ public sealed class Day07Solver : DaySolver<Day07SolverOptions>
 
     public override string SolvePart1()
     {
-        var equationChecker = new EquationChecker(new AddOperation(), new MultiplyOperation());
+        var equationChecker = new EquationChecker(
+            new AddOperation(),
+            new MultiplyOperation());
+
         long result = _equations
             .Where(equation => equationChecker.IsEquationPossiblyTrue(equation))
             .Sum(equation => equation.Result);
@@ -37,6 +40,15 @@ public sealed class Day07Solver : DaySolver<Day07SolverOptions>
 
     public override string SolvePart2()
     {
-        return "UNSOLVED";
+        var equationChecker = new EquationChecker(
+            new AddOperation(),
+            new MultiplyOperation(),
+            new ConcatenateOperation());
+
+        long result = _equations
+            .Where(equation => equationChecker.IsEquationPossiblyTrue(equation))
+            .Sum(equation => equation.Result);
+
+        return result.ToString();
     }
 }
