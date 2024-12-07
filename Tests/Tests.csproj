@@ -34,6 +34,7 @@
     <ProjectReference Include="..\Day04 - Ceres Search\Day04.csproj" />
     <ProjectReference Include="..\Day05 - Print Queue\Day05.csproj" />
     <ProjectReference Include="..\Day06 - Guard Gallivant\Day06.csproj" />
+    <ProjectReference Include="..\Day07 - Bridge Repair\Day07.csproj" />
   </ItemGroup>
 
 </Project>
