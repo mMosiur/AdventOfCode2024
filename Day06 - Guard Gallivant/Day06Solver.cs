@@ -13,6 +13,8 @@ public sealed class Day06Solver : DaySolver<Day06SolverOptions>
     private readonly Point _guardPosition;
     private readonly Direction _guardDirection;
 
+    private HashSet<Point>? _guardPathPositions;
+
     public Day06Solver(Day06SolverOptions options) : base(options)
     {
         (_labMap, _guardPosition, _guardDirection) = InputReader.Read(InputLines);
@@ -28,15 +30,37 @@ public sealed class Day06Solver : DaySolver<Day06SolverOptions>
 
     public override string SolvePart1()
     {
-        int guardVisitedDistinctPositionsCount = _labMap
+        _guardPathPositions ??= _labMap
             .FollowGuardPath(_guardPosition, _guardDirection)
-            .Distinct()
-            .Count();
-        return guardVisitedDistinctPositionsCount.ToString();
+            .ToHashSet();
+
+        int guardPathDistinctPositionsCount = _guardPathPositions.Count;
+
+        return guardPathDistinctPositionsCount.ToString();
     }
 
     public override string SolvePart2()
     {
-        return "UNSOLVED";
+        _guardPathPositions ??= _labMap
+            .FollowGuardPath(_guardPosition, _guardDirection)
+            .ToHashSet();
+
+        // "The new obstruction can't be placed at the guard's starting position"
+        _guardPathPositions.Remove(_guardPosition);
+
+        int infiniteLoopsCount = 0;
+        foreach (var guardPathPosition in _guardPathPositions)
+        {
+            _labMap.AddObstacle(guardPathPosition);
+
+            if (_labMap.IsGuardInfiniteLoop(_guardPosition, _guardDirection))
+            {
+                infiniteLoopsCount++;
+            }
+
+            _labMap.RemoveObstacle(guardPathPosition);
+        }
+
+        return infiniteLoopsCount.ToString();
     }
 }

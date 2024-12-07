@@ -2,10 +2,10 @@ namespace AdventOfCode.Year2024.Day06.Puzzle;
 
 internal sealed class Guard(Point position, Direction direction)
 {
-    public Point Position { get; set; } = position;
-    public Direction Direction { get; set; } = direction;
+    public Point Position { get; private set; } = position;
+    public Direction Direction { get; private set; } = direction;
 
-    public Point NextPosition => Position + Direction.Vector;
+    public Point NextPosition => Position + Direction.GetVector();
 
     public void MoveAhead()
     {

@@ -1,19 +1,28 @@
 namespace AdventOfCode.Year2024.Day06.Puzzle;
 
-internal readonly struct Direction
+internal enum Direction
 {
-    private Direction(Vector directionVector)
-    {
-        Vector = directionVector;
-    }
+    Up = 0,
+    Right = 1,
+    Down = 2,
+    Left = 3,
+}
 
-    public Vector Vector { get; }
+internal static class DirectionExtensions
+{
+    public static Direction TurnRight(this Direction direction)
+        => (Direction)(((int)direction + 1) % 4);
 
-    public static Direction Up => new(new(-1, 0));
-    public static Direction Right => new(new(0, 1));
-    public static Direction Down => new(new(1, 0));
-    public static Direction Left => new(new(0, -1));
+    public static Direction TurnLeft(this Direction direction)
+        => (Direction)(((int)direction + 3) % 4);
 
-    public Direction TurnRight() => new(new(Vector.Y, -Vector.X));
-    public Direction TurnLeft() => new(new(-Vector.Y, Vector.X));
+    public static Vector GetVector(this Direction direction)
+        => direction switch
+        {
+            Direction.Up => new(-1, 0),
+            Direction.Right => new(0, 1),
+            Direction.Down => new(1, 0),
+            Direction.Left => new(0, -1),
+            _ => throw new ArgumentOutOfRangeException(nameof(direction)),
+        };
 }
