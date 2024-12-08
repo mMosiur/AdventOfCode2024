@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day06", "Day06 - Guard Gall
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day07", "Day07 - Bridge Repair\Day07.csproj", "{295D2B68-3819-43F2-8AE7-BC0B816505E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day08", "Day08 - Resonant Collinearity\Day08.csproj", "{396563FC-B6F0-4CE1-836F-207A803B9229}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,10 @@ Global
 		{295D2B68-3819-43F2-8AE7-BC0B816505E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{295D2B68-3819-43F2-8AE7-BC0B816505E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{295D2B68-3819-43F2-8AE7-BC0B816505E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{396563FC-B6F0-4CE1-836F-207A803B9229}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{396563FC-B6F0-4CE1-836F-207A803B9229}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{396563FC-B6F0-4CE1-836F-207A803B9229}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{396563FC-B6F0-4CE1-836F-207A803B9229}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4F573463-F8FC-44C1-A55B-3BA1D72B6031} = {B40253D4-6A88-47AA-A036-BC60EC470E6C}

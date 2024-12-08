@@ -1,13 +1,13 @@
 ﻿<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Day07" type="DotNetProject" factoryName=".NET Project" folderName="Day07">
-    <option name="EXE_PATH" value="$PROJECT_DIR$/Day07 - Bridge Repair/bin/Debug/net9.0/Day07.exe" />
-    <option name="PROGRAM_PARAMETERS" value="" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Day07 - Bridge Repair/bin/Debug/net9.0" />
+  <configuration default="false" name="Day08 example" type="DotNetProject" factoryName=".NET Project" folderName="Day08">
+    <option name="EXE_PATH" value="$PROJECT_DIR$/Day08 - Resonant Collinearity/bin/Debug/net9.0/Day08.exe" />
+    <option name="PROGRAM_PARAMETERS" value="example.txt" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Day08 - Resonant Collinearity/bin/Debug/net9.0" />
     <option name="PASS_PARENT_ENVS" value="1" />
     <option name="USE_EXTERNAL_CONSOLE" value="0" />
     <option name="USE_MONO" value="0" />
     <option name="RUNTIME_ARGUMENTS" value="" />
-    <option name="PROJECT_PATH" value="$PROJECT_DIR$/Day07 - Bridge Repair/Day07.csproj" />
+    <option name="PROJECT_PATH" value="$PROJECT_DIR$/Day08 - Resonant Collinearity/Day08.csproj" />
     <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
     <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
     <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />

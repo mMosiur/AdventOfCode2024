@@ -1,8 +1,8 @@
 ﻿<component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Day07 example" type="DotNetProject" factoryName=".NET Project" folderName="Day07">
-    <option name="EXE_PATH" value="$PROJECT_DIR$/Day07 - Bridge Repair/bin/Release/net9.0/Day07.exe" />
+    <option name="EXE_PATH" value="$PROJECT_DIR$/Day07 - Bridge Repair/bin/Debug/net9.0/Day07.exe" />
     <option name="PROGRAM_PARAMETERS" value="example.txt" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Day07 - Bridge Repair/bin/Release/net9.0" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Day07 - Bridge Repair/bin/Debug/net9.0" />
     <option name="PASS_PARENT_ENVS" value="1" />
     <option name="USE_EXTERNAL_CONSOLE" value="0" />
     <option name="USE_MONO" value="0" />

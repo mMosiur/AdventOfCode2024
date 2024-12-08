@@ -35,6 +35,7 @@
     <ProjectReference Include="..\Day05 - Print Queue\Day05.csproj" />
     <ProjectReference Include="..\Day06 - Guard Gallivant\Day06.csproj" />
     <ProjectReference Include="..\Day07 - Bridge Repair\Day07.csproj" />
+    <ProjectReference Include="..\Day08 - Resonant Collinearity\Day08.csproj" />
   </ItemGroup>
 
 </Project>
