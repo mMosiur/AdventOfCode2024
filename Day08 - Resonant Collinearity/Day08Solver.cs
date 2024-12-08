@@ -27,7 +27,7 @@ public sealed class Day08Solver : DaySolver<Day08SolverOptions>
 
     public override string SolvePart1()
     {
-        var antinodeLocator = new AntinodeLocator();
+        var antinodeLocator = new AntinodeLocator(areAntennasResonant: false);
 
         var antinodePoints = antinodeLocator.FindAntinodePoints(_antennaMap);
         int result = antinodePoints.Count;
@@ -37,6 +37,11 @@ public sealed class Day08Solver : DaySolver<Day08SolverOptions>
 
     public override string SolvePart2()
     {
-        return "UNSOLVED";
+        var antinodeLocator = new AntinodeLocator(areAntennasResonant: true);
+
+        var antinodePoints = antinodeLocator.FindAntinodePoints(_antennaMap);
+        int result = antinodePoints.Count;
+
+        return result.ToString();
     }
 }
