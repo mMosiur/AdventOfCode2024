@@ -6,9 +6,9 @@ internal static class InputReader
 {
     public static AntennaMap Read(IEnumerable<string> inputLines)
     {
-        var dictionary = new Dictionary<Antenna, List<GridPoint>>();
         var inputArray = inputLines.ToArray();
         var bounds = new Rectangle<int>(0, inputArray.Length - 1, 0, inputArray[0].Length - 1);
+        var dictionary = new Dictionary<Antenna, List<GridPoint>>();
         for (int row = 0; row < inputArray.Length; row++)
         {
             var line = inputArray[row];

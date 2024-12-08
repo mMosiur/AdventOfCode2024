@@ -4,9 +4,9 @@ internal static class EnumerableExtensions
 {
     public static IEnumerable<(T, T)> UniquePairs<T>(this List<T> source)
     {
-        for (var i = 0; i < source.Count; i++)
+        for (int i = 0; i < source.Count; i++)
         {
-            for (var j = i + 1; j < source.Count; j++)
+            for (int j = i + 1; j < source.Count; j++)
             {
                 yield return (source[i], source[j]);
             }

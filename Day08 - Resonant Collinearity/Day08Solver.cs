@@ -27,33 +27,12 @@ public sealed class Day08Solver : DaySolver<Day08SolverOptions>
 
     public override string SolvePart1()
     {
-        HashSet<GridPoint> antinodePoints = new();
+        var antinodeLocator = new AntinodeLocator();
 
-        foreach (var (antenna, points) in _antennaMap)
-        {
-            if (points.Count <= 1) continue;
+        var antinodePoints = antinodeLocator.FindAntinodePoints(_antennaMap);
+        int result = antinodePoints.Count;
 
-            foreach (var (point1, point2) in points.UniquePairs())
-            {
-                var vector = new GridVector(point1, point2).AsPreciseVector();
-
-                var potentialAntinode1 = point1.AsPrecisePoint() - vector;
-                if (potentialAntinode1.IsOnGrid() && _antennaMap.Bounds.Contains(potentialAntinode1.AsGridPoint()))
-                {
-                    antinodePoints.Add(potentialAntinode1.AsGridPoint());
-                }
-
-                var potentialAntinode2 = point2.AsPrecisePoint() + vector;
-                if (potentialAntinode2.IsOnGrid() && _antennaMap.Bounds.Contains(potentialAntinode2.AsGridPoint()))
-                {
-                    antinodePoints.Add(potentialAntinode2.AsGridPoint());
-                }
-            }
-        }
-
-        var testNodes = antinodePoints.OrderBy(p => (p.X, p.Y)).ToList();
-
-        return antinodePoints.Count.ToString();
+        return result.ToString();
     }
 
     public override string SolvePart2()
