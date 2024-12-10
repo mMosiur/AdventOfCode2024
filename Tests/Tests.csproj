@@ -37,6 +37,7 @@
     <ProjectReference Include="..\Day07 - Bridge Repair\Day07.csproj" />
     <ProjectReference Include="..\Day08 - Resonant Collinearity\Day08.csproj" />
     <ProjectReference Include="..\Day09 - Disk Fragmenter\Day09.csproj" />
+    <ProjectReference Include="..\Day10 - Hoof It\Day10.csproj" />
   </ItemGroup>
 
 </Project>

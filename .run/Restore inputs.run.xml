@@ -1,5 +1,5 @@
 ﻿<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Restore inputs" type="PowerShellRunType" factoryName="PowerShell" scriptUrl="C:\Users\mmorus\Source\AdventOfCode\Year2024\restore-inputs.ps1" executablePath="$PROJECT_DIR$/../../../../../Program Files/PowerShell/7/pwsh.exe">
+  <configuration default="false" name="Restore inputs" type="PowerShellRunType" factoryName="PowerShell" scriptUrl="$PROJECT_DIR$/restore-inputs.ps1" executablePath="C:/Program Files/PowerShell/7/pwsh.exe">
     <envs />
     <method v="2" />
   </configuration>
