@@ -33,7 +33,7 @@ internal sealed class Disk
         return new(disk);
     }
 
-    public void Compress()
+    public void CompressBlockWise()
     {
         int leftIndex = 0;
         int rightIndex = _disk.Length - 1;
@@ -53,6 +53,41 @@ internal sealed class Disk
             _disk[leftIndex] = _disk[rightIndex];
             _disk[rightIndex] = -1;
         }
+    }
+
+    public void CompressFileWise()
+    {
+        CompressFileWise(_disk);
+    }
+
+    private static void CompressFileWise(Span<short> diskPart)
+    {
+        while (diskPart.Length > 0)
+        {
+            diskPart = diskPart.TrimEnd(FreeBlock);
+            short lastFileId = diskPart[^1];
+            int lastFileStartIndex = diskPart.LastIndexOfAnyExcept(lastFileId) + 1;
+
+            var lastFileSpan = diskPart[lastFileStartIndex..];
+
+            int freeSpaceIndex = FindFreeSpaceOfLength(diskPart, lastFileSpan.Length);
+
+            if (freeSpaceIndex >= 0)
+            {
+                // Move file at the end to the found space
+                lastFileSpan.CopyTo(diskPart[freeSpaceIndex..]);
+                lastFileSpan.Fill(FreeBlock);
+            }
+
+            diskPart = diskPart[..lastFileStartIndex];
+        }
+    }
+
+    private static int FindFreeSpaceOfLength(ReadOnlySpan<short> diskPart, int freeSpaceLenght)
+    {
+        Span<short> searchedEmptySpan = stackalloc short[freeSpaceLenght];
+        searchedEmptySpan.Fill(FreeBlock);
+        return diskPart.IndexOf(searchedEmptySpan);
     }
 
     public long CalculateChecksum()

@@ -27,13 +27,16 @@ public sealed class Day09Solver : DaySolver<Day09SolverOptions>
     public override string SolvePart1()
     {
         var disk = Disk.CreateFromDiskMap(_diskMap);
-        disk.Compress();
+        disk.CompressBlockWise();
         long checksum = disk.CalculateChecksum();
         return checksum.ToString();
     }
 
     public override string SolvePart2()
     {
-        return "UNSOLVED";
+        var disk = Disk.CreateFromDiskMap(_diskMap);
+        disk.CompressFileWise();
+        long checksum = disk.CalculateChecksum();
+        return checksum.ToString();
     }
 }
