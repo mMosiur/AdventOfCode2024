@@ -4,6 +4,7 @@ internal sealed class TrailheadAnalyzer(TopographicMap map)
 {
     private const int TrailheadElevation = 0;
     private const int HikeTrailEndElevation = 9;
+
     private readonly TopographicMap _map = map;
 
     public IEnumerable<Point> FindTrailheads()
@@ -20,7 +21,7 @@ internal sealed class TrailheadAnalyzer(TopographicMap map)
         }
     }
 
-    public int CalculateTrailheadScore(Point trailheadLocation)
+    public TrailheadMeasures CalculateTrailheadMeasures(Point trailheadLocation)
     {
         if (!_map.Bounds.Contains(trailheadLocation))
         {
@@ -32,13 +33,9 @@ internal sealed class TrailheadAnalyzer(TopographicMap map)
             throw new ArgumentException("The specified location is not a trailhead.", nameof(trailheadLocation));
         }
 
-        return CalculateTrailheadScoreInternal(trailheadLocation);
-    }
-
-    private int CalculateTrailheadScoreInternal(Point trailheadLocation)
-    {
         Queue<Point> queue = new();
         HashSet<Point> reachedHikeTrailEnds = new();
+        int trailheadRating = 0;
         queue.Enqueue(trailheadLocation);
         while (queue.TryDequeue(out var point))
         {
@@ -46,6 +43,7 @@ internal sealed class TrailheadAnalyzer(TopographicMap map)
             if (elevation is HikeTrailEndElevation)
             {
                 reachedHikeTrailEnds.Add(point);
+                trailheadRating++;
                 continue;
             }
 
@@ -57,7 +55,9 @@ internal sealed class TrailheadAnalyzer(TopographicMap map)
             EnqueueIfIsNextTrailPoint(queue, point.Right(), nextTrailElevation);
         }
 
-        return reachedHikeTrailEnds.Count;
+        int trailheadScore = reachedHikeTrailEnds.Count;
+
+        return new(trailheadLocation, trailheadScore, trailheadRating);
     }
 
     private bool EnqueueIfIsNextTrailPoint(Queue<Point> queue, Point point, int nextTrailElevation)
@@ -68,3 +68,12 @@ internal sealed class TrailheadAnalyzer(TopographicMap map)
         return true;
     }
 }
+
+/// <param name="Location">The position in topographic map where the trailhead is located.</param>
+/// <param name="Score">Trailhead score is the number of hike trail ends (elevations 9) that can be reached from the trailhead.</param>
+/// <param name="Rating">Trailhead rating is the number of distinct hiking trails that begin at given trailhead.</param>
+internal sealed record TrailheadMeasures(
+    Point Location,
+    int Score,
+    int Rating
+);

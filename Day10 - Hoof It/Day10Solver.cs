@@ -10,6 +10,7 @@ public sealed class Day10Solver : DaySolver<Day10SolverOptions>
     public override string Title => "Hoof It";
 
     private readonly TopographicMap _map;
+    private List<TrailheadMeasures>? _trailheadMeasures;
 
     public Day10Solver(Day10SolverOptions options) : base(options)
     {
@@ -26,15 +27,31 @@ public sealed class Day10Solver : DaySolver<Day10SolverOptions>
 
     public override string SolvePart1()
     {
-        var analyzer = new TrailheadAnalyzer(_map);
-        int trailheadScoreSum = analyzer
-            .FindTrailheads()
-            .Sum(trailhead => analyzer.CalculateTrailheadScore(trailhead));
+        if (_trailheadMeasures is null)
+        {
+            var analyzer = new TrailheadAnalyzer(_map);
+            _trailheadMeasures = new TrailheadAnalyzer(_map)
+                .FindTrailheads()
+                .Select(trailhead => analyzer.CalculateTrailheadMeasures(trailhead))
+                .ToList();
+        }
+
+        int trailheadScoreSum = _trailheadMeasures.Sum(m => m.Score);
         return trailheadScoreSum.ToString();
     }
 
     public override string SolvePart2()
     {
-        return "UNSOLVED";
+        if (_trailheadMeasures is null)
+        {
+            var analyzer = new TrailheadAnalyzer(_map);
+            _trailheadMeasures = new TrailheadAnalyzer(_map)
+                .FindTrailheads()
+                .Select(trailhead => analyzer.CalculateTrailheadMeasures(trailhead))
+                .ToList();
+        }
+
+        int trailheadRatingSum = _trailheadMeasures.Sum(m => m.Rating);
+        return trailheadRatingSum.ToString();
     }
 }
