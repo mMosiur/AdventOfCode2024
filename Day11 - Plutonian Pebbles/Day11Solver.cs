@@ -10,10 +10,12 @@ public sealed class Day11Solver : DaySolver<Day11SolverOptions>
     public override string Title => "Plutonian Pebbles";
 
     private readonly IReadOnlyCollection<Stone> _initialStones;
+    private readonly StoneLineBlinker _stoneBlinker;
 
     public Day11Solver(Day11SolverOptions options) : base(options)
     {
         _initialStones = InputReader.Read(Input);
+        _stoneBlinker = new(Options.StoneEngravingMultiplier);
     }
 
     public Day11Solver(Action<Day11SolverOptions> configure) : this(DaySolverOptions.FromConfigureAction(configure))
@@ -26,13 +28,17 @@ public sealed class Day11Solver : DaySolver<Day11SolverOptions>
 
     public override string SolvePart1()
     {
-        var stoneBlinker = new StoneLineBlinker(Options.StoneEngravingMultiplier);
-        long stoneCount = stoneBlinker.CountStonesAfterBlinks(_initialStones, Options.PartOneBlinkCount);
+        long stoneCount = _stoneBlinker
+            .CountStonesAfterBlinks(_initialStones, Options.PartOneBlinkCount);
+
         return stoneCount.ToString();
     }
 
     public override string SolvePart2()
     {
-        return "UNSOLVED";
+        long stoneCount = _stoneBlinker
+            .CountStonesAfterBlinks(_initialStones, Options.PartTwoBlinkCount);
+
+        return stoneCount.ToString();
     }
 }
