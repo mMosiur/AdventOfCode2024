@@ -38,6 +38,7 @@
     <ProjectReference Include="..\Day08 - Resonant Collinearity\Day08.csproj" />
     <ProjectReference Include="..\Day09 - Disk Fragmenter\Day09.csproj" />
     <ProjectReference Include="..\Day10 - Hoof It\Day10.csproj" />
+    <ProjectReference Include="..\Day11 - Plutonian Pebbles\Day11.csproj" />
   </ItemGroup>
 
 </Project>
