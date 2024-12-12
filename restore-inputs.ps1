@@ -92,7 +92,9 @@ foreach ($dayDirectory in $dayDirectories) {
             $exampleInputFiles = Get-ChildItem -Path $testsInputDirectoryPath -Filter "example-input*.txt"
             foreach ($exampleInputFile in $exampleInputFiles) {
                 $newExampleInputFileName = $exampleInputFile.Name -replace "^example-input-?", "example"
-                Copy-Item -Path $exampleInputFile.FullName -Destination $newExampleInputFileName
+                if (-not (Test-Path $newExampleInputFileName)) {
+                    Copy-Item -Path $exampleInputFile.FullName -Destination $newExampleInputFileName
+                }
             }
         }
         $testsInputPath = Join-Path $testsInputDirectoryPath $testInputFilename
