@@ -11,12 +11,11 @@ public sealed class Day12Solver : DaySolver<Day12SolverOptions>
     public override string Title => "Garden Groups";
 
     private readonly GardenPlotMap _gardenPlotMap;
-    private readonly FencePriceCalculator _fencePriceCalculator;
+    private List<GardenRegion>? _gardenRegions;
 
     public Day12Solver(Day12SolverOptions options) : base(options)
     {
         _gardenPlotMap = InputReader.Read(InputLines);
-        _fencePriceCalculator = new();
     }
 
     public Day12Solver(Action<Day12SolverOptions> configure) : this(DaySolverOptions.FromConfigureAction(configure))
@@ -29,17 +28,31 @@ public sealed class Day12Solver : DaySolver<Day12SolverOptions>
 
     public override string SolvePart1()
     {
-        var gardenBuilder = GardenBuilder.CreateFrom(_gardenPlotMap);
-        var gardenRegions = gardenBuilder.BuildRegions();
+        if (_gardenRegions is null)
+        {
+            var gardenBuilder = GardenBuilder.CreateFrom(_gardenPlotMap);
+            _gardenRegions = gardenBuilder.BuildRegions();
+        }
 
-        int totalFencePrice = gardenRegions
-            .Sum(region => _fencePriceCalculator.CalculatePriceForRegion(region));
+        var fencePriceCalculator = new FencePriceCalculator(bulkDiscount: false);
+        int totalFencePrice = _gardenRegions
+            .Sum(region => fencePriceCalculator.CalculatePriceForRegion(region));
 
         return totalFencePrice.ToString();
     }
 
     public override string SolvePart2()
     {
-        return "UNSOLVED";
+        if (_gardenRegions is null)
+        {
+            var gardenBuilder = GardenBuilder.CreateFrom(_gardenPlotMap);
+            _gardenRegions = gardenBuilder.BuildRegions();
+        }
+
+        var fencePriceCalculator = new FencePriceCalculator(bulkDiscount: true);
+        int totalFencePrice = _gardenRegions
+            .Sum(region => fencePriceCalculator.CalculatePriceForRegion(region));
+
+        return totalFencePrice.ToString();
     }
 }
