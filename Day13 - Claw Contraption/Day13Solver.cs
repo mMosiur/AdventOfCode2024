@@ -26,21 +26,29 @@ public sealed class Day13Solver : DaySolver<Day13SolverOptions>
 
     public override string SolvePart1()
     {
-        var optimizer = new ClawMachineButtonOptimizer(Options.ButtonATokenCost, Options.ButtonBTokenCost);
-        int totalTokenCost = 0;
-        foreach (var clawMachine in _clawMachines)
-        {
-            if (optimizer.TryOptimizeClicks(clawMachine, out var bestClicks))
-            {
-                totalTokenCost += bestClicks.TokenCost;
-            }
-        }
+        var solver = new ClawMachineEquationSolver(Options.ButtonATokenCost, Options.ButtonBTokenCost);
+        long totalTokenCost = _clawMachines
+            .Select(clawMachine => solver.CalculateTotalCost(clawMachine))
+            .Sum(x => x?.TokenCost ?? 0);
 
         return totalTokenCost.ToString();
     }
 
     public override string SolvePart2()
     {
-        return "UNSOLVED";
+        var solver = new ClawMachineEquationSolver(Options.ButtonATokenCost, Options.ButtonBTokenCost);
+        var prizeErrorCorrectionVector = new Vector(Options.PricePositionError, Options.PricePositionError);
+        long totalTokenCost = _clawMachines
+            .Select(cm => CorrectBy(cm, prizeErrorCorrectionVector))
+            .Select(cm => solver.CalculateTotalCost(cm))
+            .Sum(tc => tc?.TokenCost ?? 0);
+
+        return totalTokenCost.ToString();
     }
+
+    private static ClawMachine CorrectBy(ClawMachine clawMachine, Vector errorCorrection)
+        => clawMachine with
+        {
+            PrizeLocation = clawMachine.PrizeLocation + errorCorrection
+        };
 }
