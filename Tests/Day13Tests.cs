@@ -11,8 +11,8 @@ public sealed class Day13Tests : BaseDayTests<Day13Solver, Day13SolverOptions>
     protected override Day13Solver CreateSolver(Day13SolverOptions options) => new(options);
 
     [Theory]
-    [InlineData("example-input.txt", "", Skip = "Unsolved yet")]
-    [InlineData("my-input.txt", "", Skip = "Unsolved yet")]
+    [InlineData("example-input.txt", "480")]
+    [InlineData("my-input.txt", "31065")]
     public void TestPart1(string inputFilename, string expectedResult)
         => BaseTestPart1(inputFilename, expectedResult);
 
