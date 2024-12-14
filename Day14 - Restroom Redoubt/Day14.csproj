@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="mMosiur.AdventOfCode.Common" Version="0.3.0" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>

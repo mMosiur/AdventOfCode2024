@@ -28,9 +28,9 @@ public sealed class Day14Tests : BaseDayTests<Day14Solver, Day14SolverOptions>
     public void TestPart1(string inputFilename, string expectedResult, Day14SolverOptions? customOptions)
         => BaseTestPart1(inputFilename, expectedResult, customOptions);
 
-    [Theory]
-    [InlineData("example-input.txt", "", Skip = "Unsolved yet")]
-    [InlineData("my-input.txt", "", Skip = "Unsolved yet")]
-    public void TestPart2(string inputFilename, string expectedResult)
-        => BaseTestPart2(inputFilename, expectedResult);
+    // Part two is not testable yet
+    // [Theory]
+    // [InlineData("my-input.txt", "6876")]
+    // public void TestPart2(string inputFilename, string expectedResult)
+    //     => BaseTestPart2(inputFilename, expectedResult);
 }

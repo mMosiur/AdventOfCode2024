@@ -2,14 +2,15 @@
 
 internal sealed class Bathroom(Bounds bounds, IReadOnlyCollection<Robot> robots)
 {
-    private readonly IReadOnlyCollection<Robot> _robots = robots;
+    public IReadOnlyCollection<Robot> Robots { get; } = robots;
     public Bounds Bounds { get; } = bounds;
     public int Width { get; } = bounds.XRange.Count;
     public int Height { get; } = bounds.YRange.Count;
+    public int SecondsPassed { get; private set; }
 
     public void SimulateSeconds(int seconds)
     {
-        for (int i = 0; i < seconds; i++)
+        for (int i = 1; i <= seconds; i++)
         {
             SimulateSecond();
         }
@@ -17,17 +18,18 @@ internal sealed class Bathroom(Bounds bounds, IReadOnlyCollection<Robot> robots)
 
     public void SimulateSecond()
     {
-        foreach (Robot robot in _robots)
+        foreach (Robot robot in Robots)
         {
             robot.Move(Bounds);
         }
+        SecondsPassed++;
     }
 
     public int SafetyFactor()
     {
         Span<int> quadrants = stackalloc int[4];
 
-        foreach (Robot robot in _robots)
+        foreach (Robot robot in Robots)
         {
             var quadrant = GetQuadrant(robot.Position);
             if (quadrant is null) continue;

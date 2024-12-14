@@ -9,13 +9,14 @@ public sealed class Day14Solver : DaySolver<Day14SolverOptions>
     public override int Day => 14;
     public override string Title => "Restroom Redoubt";
 
-    private readonly Bounds _bounds;
-    private readonly IReadOnlyList<Robot> _robots;
+    private readonly Bathroom _bathroom;
 
     public Day14Solver(Day14SolverOptions options) : base(options)
     {
-        _bounds = new(0, options.BathroomWidth - 1, 0, options.BathroomHeight - 1);
-        _robots = InputReader.Read(Input);
+        _bathroom = new(
+            bounds: new(0, options.BathroomWidth - 1, 0, options.BathroomHeight - 1),
+            robots: InputReader.Read(Input)
+        );
     }
 
     public Day14Solver(Action<Day14SolverOptions> configure) : this(DaySolverOptions.FromConfigureAction(configure))
@@ -28,14 +29,21 @@ public sealed class Day14Solver : DaySolver<Day14SolverOptions>
 
     public override string SolvePart1()
     {
-        var bathroom = new Bathroom(_bounds, _robots);
-        bathroom.SimulateSeconds(100);
-        int safetyFactor = bathroom.SafetyFactor();
+        _bathroom.SimulateSeconds(100);
+        int safetyFactor = _bathroom.SafetyFactor();
         return safetyFactor.ToString();
     }
 
     public override string SolvePart2()
     {
-        return "UNSOLVED";
+        if (_bathroom.Width < 31 || _bathroom.Height < 33)
+        {
+            return "Bathroom is too small to contain christmas tree at any point.";
+        }
+
+        const string imagesFolder = "images";
+        var bathroomImager = new BathroomImager(_bathroom, imagesFolder);
+        bathroomImager.SimulateSecondsWithImages(10_000);
+        return $"Look for christmas tree in folder \"{imagesFolder}\".";
     }
 }
