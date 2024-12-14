@@ -28,6 +28,8 @@ internal sealed class BathroomImager(Bathroom bathroom, string folderName)
         }
     }
 
+
+#pragma warning disable CA1416 // Temporary solution that works on Windows, later fixes should avoid image file generation
     private void GenerateImage(string filename)
     {
         using Bitmap image = new(_bathroom.Width, _bathroom.Height);
@@ -37,4 +39,5 @@ internal sealed class BathroomImager(Bathroom bathroom, string folderName)
         }
         image.Save($"{_folderName}/{filename}");
     }
+#pragma warning restore CA1416
 }
