@@ -10,11 +10,23 @@ public sealed class Day14Tests : BaseDayTests<Day14Solver, Day14SolverOptions>
 
     protected override Day14Solver CreateSolver(Day14SolverOptions options) => new(options);
 
+    public static TheoryData<string, string, Day14SolverOptions?> TestPart1Data { get; }
+        = new()
+        {
+            {
+                "example-input.txt", "12", new()
+                {
+                    BathroomWidth = 11,
+                    BathroomHeight = 7,
+                }
+            },
+            { "my-input.txt", "216027840", null }
+        };
+
     [Theory]
-    [InlineData("example-input.txt", "", Skip = "Unsolved yet")]
-    [InlineData("my-input.txt", "", Skip = "Unsolved yet")]
-    public void TestPart1(string inputFilename, string expectedResult)
-        => BaseTestPart1(inputFilename, expectedResult);
+    [MemberData(nameof(TestPart1Data))]
+    public void TestPart1(string inputFilename, string expectedResult, Day14SolverOptions? customOptions)
+        => BaseTestPart1(inputFilename, expectedResult, customOptions);
 
     [Theory]
     [InlineData("example-input.txt", "", Skip = "Unsolved yet")]
