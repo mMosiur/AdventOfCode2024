@@ -42,6 +42,7 @@
     <ProjectReference Include="..\Day12 - Garden Groups\Day12.csproj" />
     <ProjectReference Include="..\Day13 - Claw Contraption\Day13.csproj" />
     <ProjectReference Include="..\Day14 - Restroom Redoubt\Day14.csproj" />
+    <ProjectReference Include="..\Day15 - Warehouse Woes\Day15.csproj" />
   </ItemGroup>
 
 </Project>

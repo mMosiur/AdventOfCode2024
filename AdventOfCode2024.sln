@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day13", "Day13 - Claw Contr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day14", "Day14 - Restroom Redoubt\Day14.csproj", "{A41BDF74-80F8-44F1-8B66-FDD34FE31E4B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day15", "Day15 - Warehouse Woes\Day15.csproj", "{08D8FC28-82FB-45B9-BD8C-62BE045F6703}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +106,10 @@ Global
 		{A41BDF74-80F8-44F1-8B66-FDD34FE31E4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A41BDF74-80F8-44F1-8B66-FDD34FE31E4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A41BDF74-80F8-44F1-8B66-FDD34FE31E4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08D8FC28-82FB-45B9-BD8C-62BE045F6703}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08D8FC28-82FB-45B9-BD8C-62BE045F6703}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08D8FC28-82FB-45B9-BD8C-62BE045F6703}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08D8FC28-82FB-45B9-BD8C-62BE045F6703}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4F573463-F8FC-44C1-A55B-3BA1D72B6031} = {B40253D4-6A88-47AA-A036-BC60EC470E6C}
