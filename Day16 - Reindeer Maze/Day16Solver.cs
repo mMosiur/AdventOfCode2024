@@ -33,13 +33,20 @@ public sealed class Day16Solver : DaySolver<Day16SolverOptions>
 
     public override string SolvePart1()
     {
-        var traverser = new MazeMapTraverser(_map, _endPosition, Options.ForwardMoveScore, Options.TurnMoveScore);
-        int lowestScore = traverser.FindBestPathScore(_startPosition, _startDirection);
+        var runScorer = new MazeMapRunScorer(_map, _endPosition, Options.ForwardMoveScore, Options.TurnMoveScore);
+        int lowestScore = runScorer.FindBestPathScore(_startPosition, _startDirection);
         return lowestScore.ToString();
     }
 
     public override string SolvePart2()
     {
-        return "UNSOLVED";
+        var pathFinder = new MazeMapPathFinder(_map, _endPosition, Options.ForwardMoveScore, Options.TurnMoveScore);
+        var uniqueBestPathPoints = pathFinder
+            .FindAllBestPaths(_startPosition, _startDirection)
+            .SelectMany(path => path)
+            .ToHashSet();
+
+        int bestPathPointCount = uniqueBestPathPoints.Count;
+        return bestPathPointCount.ToString();
     }
 }

@@ -3,7 +3,7 @@ using AdventOfCode.Common.Geometry;
 
 namespace AdventOfCode.Year2024.Day16.Puzzle;
 
-internal sealed class MazeMapTraverser(MazeMap map, Point endPosition, int forwardMoveScore, int turnMoveScore)
+internal sealed class MazeMapRunScorer(MazeMap map, Point endPosition, int forwardMoveScore, int turnMoveScore)
 {
     private readonly MazeMap _map = map;
     private readonly Point _endPosition = endPosition;
