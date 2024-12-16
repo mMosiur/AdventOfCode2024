@@ -1,49 +1,62 @@
 ﻿using AdventOfCode.Common;
+using AdventOfCode.Common.Geometry;
 
 namespace AdventOfCode.Year2024.Day16.Puzzle;
 
-internal sealed class MazeMapTraverser(MazeMap map)
+internal sealed class MazeMapTraverser(MazeMap map, Point endPosition, int forwardMoveScore, int turnMoveScore)
 {
     private readonly MazeMap _map = map;
-    private const int ForwardMoveScore = 1;
-    private const int TurnMoveScore = 1000;
+    private readonly Point _endPosition = endPosition;
+    private readonly int _forwardMoveScore = forwardMoveScore;
+    private readonly int _turnMoveScore = turnMoveScore;
 
-    public int FindLowestScorePath(Point reindeerStartPosition, Vector reindeerStartDirection, Point endPosition)
+    public int FindBestPathScore(Point reindeerStartPosition, Vector reindeerStartDirection)
     {
-        Dictionary<ReindeerState, int> bestScores = new();
-        PriorityQueue<ReindeerState, int> queue = new();
-        queue.Enqueue(new(reindeerStartPosition, reindeerStartDirection), 0);
-        while (queue.TryDequeue(out ReindeerState reindeerState, out int score))
-        {
-            if (reindeerState.Position == endPosition)
-                return score;
+        Dictionary<ReindeerOrientation, int> bestScores = new();
+        PriorityQueue<ReindeerRunState, int> queue = new();
+        queue.Enqueue(new(reindeerStartPosition, reindeerStartDirection, 0), 0);
 
-            if (bestScores.TryGetValue(reindeerState, out int bestScore) && bestScore <= score)
+        while (queue.TryDequeue(out ReindeerRunState state, out int heuristicScore))
+        {
+            if (state.Position == _endPosition)
+                return state.Score;
+
+            if (bestScores.TryGetValue(state.Orientation, out int bestScore) && bestScore <= state.Score)
                 continue;
 
-            bestScores[reindeerState] = score;
+            bestScores[state.Orientation] = state.Score;
 
-            EnqueueRotationIfDirectionOpen(queue, reindeerState.Position, reindeerState.Direction.RotateClockwise(), score);
-            EnqueueRotationIfDirectionOpen(queue, reindeerState.Position, reindeerState.Direction.RotateCounterclockwise(), score);
-            TryEnqueueForward(queue, reindeerState.Position + reindeerState.Direction, reindeerState.Direction, score);
+            EnqueueRotationIfDirectionOpen(queue, state, state.Direction.RotateClockwise());
+            EnqueueRotationIfDirectionOpen(queue, state, state.Direction.RotateCounterclockwise());
+            TryEnqueueForward(queue, state);
         }
 
         throw new DaySolverException("No path found");
     }
 
-    private bool EnqueueRotationIfDirectionOpen(PriorityQueue<ReindeerState, int> queue, Point position, Vector newDirection, int currentScore)
+    private bool EnqueueRotationIfDirectionOpen(PriorityQueue<ReindeerRunState, int> queue, ReindeerRunState state, Vector newDirection)
     {
-        if (_map[position + newDirection] is TileType.Wall) return false;
-        queue.Enqueue(new(position, newDirection), currentScore + TurnMoveScore);
+        if (_map[state.Position + newDirection] is TileType.Wall) return false;
+        int newScore = state.Score + _turnMoveScore;
+        int newHeuristicScore = newScore + MathG.ManhattanDistance(state.Position, _endPosition);
+        queue.Enqueue(new(state.Position, newDirection, newScore), newHeuristicScore);
         return true;
     }
 
-    private bool TryEnqueueForward(PriorityQueue<ReindeerState, int> queue, Point newPosition, Vector direction, int currentScore)
+    private bool TryEnqueueForward(PriorityQueue<ReindeerRunState, int> queue, ReindeerRunState state)
     {
+        var newPosition = state.Position + state.Direction;
         if (_map[newPosition] is not TileType.Empty) return false;
-        queue.Enqueue(new(newPosition, direction), currentScore + ForwardMoveScore);
+        int newScore = state.Score + _forwardMoveScore;
+        int newHeuristicScore = newScore + MathG.ManhattanDistance(newPosition, _endPosition);
+        queue.Enqueue(new(newPosition, state.Direction, newScore), newHeuristicScore);
         return true;
     }
 
-    private readonly record struct ReindeerState(Point Position, Vector Direction);
+    private readonly record struct ReindeerOrientation(Point Position, Vector Direction);
+
+    private readonly record struct ReindeerRunState(Point Position, Vector Direction, int Score)
+    {
+        public ReindeerOrientation Orientation => new(Position, Direction);
+    }
 }

@@ -33,8 +33,8 @@ public sealed class Day16Solver : DaySolver<Day16SolverOptions>
 
     public override string SolvePart1()
     {
-        var traverser = new MazeMapTraverser(_map);
-        int lowestScore = traverser.FindLowestScorePath(_startPosition, _startDirection, _endPosition);
+        var traverser = new MazeMapTraverser(_map, _endPosition, Options.ForwardMoveScore, Options.TurnMoveScore);
+        int lowestScore = traverser.FindBestPathScore(_startPosition, _startDirection);
         return lowestScore.ToString();
     }
 
