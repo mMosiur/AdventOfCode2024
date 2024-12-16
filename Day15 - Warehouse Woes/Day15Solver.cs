@@ -10,11 +10,13 @@ public sealed class Day15Solver : DaySolver<Day15SolverOptions>
     public override string Title => "Warehouse Woes";
 
     private readonly char[,] _warehouseCharMap;
+    private readonly char[,] _widenedWarehouseCharMap;
     private readonly MoveDirection[] _robotMovementList;
 
     public Day15Solver(Day15SolverOptions options) : base(options)
     {
         (_warehouseCharMap, _robotMovementList) = InputReader.Read(Input);
+        _widenedWarehouseCharMap = InputReader.WidenInputWarehouse(_warehouseCharMap);
     }
 
     public Day15Solver(Action<Day15SolverOptions> configure) : this(DaySolverOptions.FromConfigureAction(configure))
@@ -37,6 +39,11 @@ public sealed class Day15Solver : DaySolver<Day15SolverOptions>
 
     public override string SolvePart2()
     {
-        return "UNSOLVED";
+        var warehouseMap = WarehouseMap.CreateFromCharMap(_widenedWarehouseCharMap);
+        var robotMover = new WarehouseRobotMover(warehouseMap);
+        robotMover.MakeMoves(_robotMovementList);
+        var boxes = warehouseMap.OfType<WarehouseMap.WideBox>().Distinct().ToList();
+        int gpsCoordinateSum = boxes.Sum(box => box.GpsCoordinate);
+        return gpsCoordinateSum.ToString();
     }
 }
