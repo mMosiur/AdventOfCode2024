@@ -53,7 +53,7 @@ internal sealed partial class WarehouseMap
             var newLeftPosition = LeftPosition + moveVector;
             var newRightPosition = newLeftPosition with { Y = newLeftPosition.Y + 1 };
 
-            if(Map[newLeftPosition] is { } blockingLeftObject && !ReferenceEquals(Map[newLeftPosition], this))
+            if (Map[newLeftPosition] is { } blockingLeftObject && !ReferenceEquals(Map[newLeftPosition], this))
             {
                 if (!blockingLeftObject.TryMove(direction))
                 {
@@ -61,7 +61,7 @@ internal sealed partial class WarehouseMap
                 }
             }
 
-            if(Map[newRightPosition] is { } blockingRightObject && !ReferenceEquals(Map[newRightPosition], this))
+            if (Map[newRightPosition] is { } blockingRightObject && !ReferenceEquals(Map[newRightPosition], this))
             {
                 if (!blockingRightObject.TryMove(direction))
                 {
