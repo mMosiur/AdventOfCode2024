@@ -47,7 +47,7 @@ internal sealed class MazeMapPathFinder(MazeMap map, Point endPosition, int forw
         int newScore = state.Score + _turnMoveScore;
         int newHeuristicScore = newScore + MathG.ManhattanDistance(state.Position, _endPosition);
         var newPath = new List<Point>(state.Path); // Clone the path
-        queue.Enqueue(new(state.Position, newDirection, [..state.Path], newScore), newHeuristicScore);
+        queue.Enqueue(new(state.Position, newDirection, [.. state.Path], newScore), newHeuristicScore);
         return true;
     }
 
