@@ -4,15 +4,15 @@ namespace AdventOfCode.Year2024.Day18.Puzzle;
 
 internal static class InputReader
 {
-    public static List<Point> Read(IEnumerable<string> inputLines, Day18SolverOptions options)
+    public static Point[] Read(IEnumerable<string> inputLines, Day18SolverOptions options)
     {
-        List<Point> points;
+        Point[] points;
 
         try
         {
             points = inputLines
                 .Select(l => Point.Parse(l))
-                .ToList();
+                .ToArray();
         }
         catch (FormatException ex)
         {

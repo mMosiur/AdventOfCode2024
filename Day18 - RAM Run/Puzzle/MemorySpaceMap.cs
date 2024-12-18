@@ -11,7 +11,12 @@ internal sealed class MemorySpaceMap(int height, int width)
     public MemorySpaceByte this[int x, int y] => _map[y, x];
     public MemorySpaceByte this[Point point] => this[point.Y, point.X];
 
-    public void FallBytes(IEnumerable<Point> fallingBytePositions)
+    public void Clear()
+    {
+        Array.Clear(_map);
+    }
+
+    public void FallBytes(params ReadOnlySpan<Point> fallingBytePositions)
     {
         try
         {

@@ -1,5 +1,4 @@
-﻿using AdventOfCode.Common;
-using AdventOfCode.Common.Geometry;
+﻿using AdventOfCode.Common.Geometry;
 
 namespace AdventOfCode.Year2024.Day18.Puzzle;
 
@@ -7,7 +6,7 @@ internal sealed class MapPathFinder(MemorySpaceMap map)
 {
     private readonly MemorySpaceMap _map = map;
 
-    public int FindShortestPath(Point start, Point end)
+    public int? FindShortestPath(Point start, Point end)
     {
         if (!_map.Bounds.Contains(start)) throw new ArgumentException("Start point is out of the map bounds.", nameof(start));
         if (!_map.Bounds.Contains(end)) throw new ArgumentException("End point is out of the map bounds.", nameof(end));
@@ -29,7 +28,7 @@ internal sealed class MapPathFinder(MemorySpaceMap map)
             EnqueueAdjacentPoints(queue, searchState, end);
         }
 
-        throw new DaySolverException("No path to end found.");
+        return null;
     }
 
     private int EnqueueAdjacentPoints(PriorityQueue<SearchState, int> queue, SearchState searchState, Point end)
