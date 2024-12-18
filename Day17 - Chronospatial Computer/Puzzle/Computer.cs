@@ -2,18 +2,24 @@
 
 namespace AdventOfCode.Year2024.Day17.Puzzle;
 
-internal sealed class Computer(int registerA, int registerB, int registerC)
+internal sealed class Computer
 {
-    private int _registerA = registerA;
-    private int _registerB = registerB;
-    private int _registerC = registerC;
+    public ulong RegisterA { get; private set; }
+    public ulong RegisterB { get; private set; }
+    public ulong RegisterC { get; private set; }
 
-    private int _instructionPointer = 0;
+    private int _instructionPointer;
 
+    public void Reset(RegisterValues registerValues)
+    {
+        RegisterA = registerValues.A;
+        RegisterB = registerValues.B;
+        RegisterC = registerValues.C;
+        _instructionPointer = 0;
+    }
 
     public IEnumerable<byte> RunProgram(IReadOnlyList<byte> program)
     {
-        _instructionPointer = 0;
         while (_instructionPointer < program.Count)
         {
             (Instruction instruction, byte operand) = GetCurrentInstruction(program);
@@ -57,47 +63,47 @@ internal sealed class Computer(int registerA, int registerB, int registerC)
 
     private static byte Literal(byte operand) => operand;
 
-    private int Combo(byte operand)
+    private ulong Combo(byte operand)
         => operand switch
         {
             < 4 => operand,
-            4 => _registerA,
-            5 => _registerB,
-            6 => _registerC,
+            4 => RegisterA,
+            5 => RegisterB,
+            6 => RegisterC,
             7 => throw new DaySolverException("Reserved combo operand 7"),
             _ => throw new ArgumentOutOfRangeException(nameof(operand), operand, null)
         };
 
     private bool ExecuteAdv(byte operand)
     {
-        int numerator = _registerA;
-        int denominator = 1 << Combo(operand); // 2^operand
-        _registerA = numerator / denominator;
+        ulong numerator = RegisterA;
+        int denominator = 1 << (int)Combo(operand); // 2^operand
+        RegisterA = numerator / (ulong)denominator;
         return false;
     }
 
     private bool ExecuteBxl(byte operand)
     {
-        _registerB = _registerB ^ Literal(operand);
+        RegisterB = RegisterB ^ Literal(operand);
         return false;
     }
 
     private bool ExecuteBst(byte operand)
     {
-        _registerB = Combo(operand) % 8;
+        RegisterB = Combo(operand) % 8;
         return false;
     }
 
     private bool ExecuteJnz(byte operand)
     {
-        if (_registerA == 0) return false;
+        if (RegisterA == 0) return false;
         _instructionPointer = Literal(operand);
         return true;
     }
 
     private bool ExecuteBxc(byte operand)
     {
-        _registerB = _registerB ^ _registerC;
+        RegisterB = RegisterB ^ RegisterC;
         return false;
     }
 
@@ -109,17 +115,19 @@ internal sealed class Computer(int registerA, int registerB, int registerC)
 
     private bool ExecuteBdv(byte operand)
     {
-        int numerator = _registerA;
-        int denominator = 1 << Combo(operand); // 2^operand
-        _registerB = numerator / denominator;
+        ulong numerator = RegisterA;
+        int denominator = 1 << (int)Combo(operand); // 2^operand
+        RegisterB = numerator / (ulong)denominator;
         return false;
     }
 
     private bool ExecuteCdv(byte operand)
     {
-        int numerator = _registerA;
-        int denominator = 1 << Combo(operand); // 2^operand
-        _registerC = numerator / denominator;
+        ulong numerator = RegisterA;
+        int denominator = 1 << (int)Combo(operand); // 2^operand
+        RegisterC = numerator / (ulong)denominator;
         return false;
     }
 }
+
+internal readonly record struct RegisterValues(ulong A, ulong B, ulong C);

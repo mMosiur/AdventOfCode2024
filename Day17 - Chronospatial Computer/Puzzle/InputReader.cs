@@ -13,7 +13,7 @@ internal static partial class InputReader
     [GeneratedRegex(@"^Program: ((?:\d|,)+)$")]
     private static partial Regex ProgramLineRegex();
 
-    public static (InitialRegisterValues Registers, List<byte> Program) Read(string input)
+    public static (RegisterValues Registers, List<byte> Program) Read(string input)
     {
         using var it = input.EnumerateLines().GetEnumerator();
         it.EnsureMoveNext();
@@ -22,18 +22,18 @@ internal static partial class InputReader
             throw new InputException("Input is empty");
         }
 
-        int a = ReadRegister('A', it.Current);
+        ulong a = ReadRegister('A', it.Current);
         it.EnsureMoveNext();
-        int b = ReadRegister('B', it.Current);
+        ulong b = ReadRegister('B', it.Current);
         it.EnsureMoveNext();
-        int c = ReadRegister('C', it.Current);
+        ulong c = ReadRegister('C', it.Current);
         it.EnsureMoveToNextNonEmptyLine();
         var program = ReadProgram(it.Current);
 
         return (new(a, b, c), program);
     }
 
-    private static int ReadRegister(char registerSymbol, string line)
+    private static ulong ReadRegister(char registerSymbol, string line)
     {
         var match = RegisterLineRegex().Match(line);
         if (!match.Success)
@@ -46,7 +46,7 @@ internal static partial class InputReader
             throw new InputException($"Invalid register symbol: '{match.Groups[1].Value}' (expected '{registerSymbol}')");
         }
 
-        if (!int.TryParse(match.Groups[2].ValueSpan, out var value))
+        if (!ulong.TryParse(match.Groups[2].ValueSpan, out ulong value))
         {
             throw new InputException($"Invalid register value: '{match.Groups[2].Value}'");
         }
@@ -73,7 +73,7 @@ internal static partial class InputReader
                 throw new InputException($"Invalid program value: '{numberSpan}'");
             }
 
-            if (numericValue is < 0 or > 7)
+            if (numericValue > 7)
             {
                 throw new InputException($"Invalid program value: '{numericValue}' (expected 0-7)");
             }
@@ -84,5 +84,3 @@ internal static partial class InputReader
         return program;
     }
 }
-
-internal readonly record struct InitialRegisterValues(int A, int B, int C);
