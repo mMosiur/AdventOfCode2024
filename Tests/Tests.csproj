@@ -46,6 +46,7 @@
     <ProjectReference Include="..\Day16 - Reindeer Maze\Day16.csproj" />
     <ProjectReference Include="..\Day17 - Chronospatial Computer\Day17.csproj" />
     <ProjectReference Include="..\Day18 - RAM Run\Day18.csproj" />
+    <ProjectReference Include="..\Day19 - Linen Layout\Day19.csproj" />
   </ItemGroup>
 
 </Project>

@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day17", "Day17 - Chronospat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day18", "Day18 - RAM Run\Day18.csproj", "{36BF6323-DDE3-4AA7-B95F-CBAF68A03669}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day19", "Day19 - Linen Layout\Day19.csproj", "{86A4D005-2140-4771-A801-8A7999EBA0B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -128,6 +130,10 @@ Global
 		{36BF6323-DDE3-4AA7-B95F-CBAF68A03669}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36BF6323-DDE3-4AA7-B95F-CBAF68A03669}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36BF6323-DDE3-4AA7-B95F-CBAF68A03669}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86A4D005-2140-4771-A801-8A7999EBA0B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86A4D005-2140-4771-A801-8A7999EBA0B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86A4D005-2140-4771-A801-8A7999EBA0B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86A4D005-2140-4771-A801-8A7999EBA0B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4F573463-F8FC-44C1-A55B-3BA1D72B6031} = {B40253D4-6A88-47AA-A036-BC60EC470E6C}
