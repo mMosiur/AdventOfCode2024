@@ -2,9 +2,9 @@
 
 internal enum TowelColor
 {
-    White = 1,
-    Blue = 2,
-    Black = 3,
-    Red = 4,
-    Green = 5,
+    White = 'w',
+    Blue = 'u',
+    Black = 'b',
+    Red = 'r',
+    Green = 'g',
 }

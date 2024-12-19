@@ -51,15 +51,9 @@ internal static class InputReader
         var pattern = new TowelColor[span.Length];
         for (int i = 0; i < pattern.Length; i++)
         {
-            pattern[i] = span[i] switch
-            {
-                'w' => TowelColor.White,
-                'u' => TowelColor.Blue,
-                'b' => TowelColor.Black,
-                'r' => TowelColor.Red,
-                'g' => TowelColor.Green,
-                _ => throw new InputException($"Unrecognized towel color '{span[i]}'")
-            };
+            TowelColor towelColor = (TowelColor)span[i];
+            if (!Enum.IsDefined(towelColor)) throw new InputException($"Unrecognized towel color '{span[i]}'");
+            pattern[i] = towelColor;
         }
 
         return new(pattern);

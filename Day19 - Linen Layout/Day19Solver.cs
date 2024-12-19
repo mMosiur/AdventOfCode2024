@@ -35,6 +35,9 @@ public sealed class Day19Solver : DaySolver<Day19SolverOptions>
 
     public override string SolvePart2()
     {
-        return "UNSOLVED";
+        var designChecker = new DesignChecker(_availablePatterns);
+        long uniqueDesignWaysCount = _desiredDesigns
+            .Sum(d => designChecker.CountWaysToMakeDesign(d));
+        return uniqueDesignWaysCount.ToString();
     }
 }
