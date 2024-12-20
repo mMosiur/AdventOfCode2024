@@ -35,11 +35,8 @@ try
     Day20Solver solver = new(options =>
     {
         options.InputFilepath = filepath ?? options.InputFilepath;
-        Console.WriteLine("Setting input filepath to: " + options.InputFilepath);
         options.PartOneMinPicosecondsSaved = partOneMinPicosecondsSaved ?? options.PartOneMinPicosecondsSaved;
-        Console.WriteLine("Setting part one min picoseconds saved to: " + options.PartOneMinPicosecondsSaved);
         options.PartTwoMinPicosecondsSaved = partTwoMinPicosecondsSaved ?? options.PartTwoMinPicosecondsSaved;
-        Console.WriteLine("Setting part two min picoseconds saved to: " + options.PartTwoMinPicosecondsSaved);
     });
 
     Console.WriteLine($"--- Day {solver.Day}: {solver.Title} ---");
