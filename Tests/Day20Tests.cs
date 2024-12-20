@@ -12,7 +12,8 @@ public sealed class Day20Tests : BaseDayTests<Day20Solver, Day20SolverOptions>
 
     private static readonly Day20SolverOptions ExampleOptions = new()
     {
-        MinPicosecondsSaved = 10,
+        PartOneMinPicosecondsSaved = 10,
+        PartTwoMinPicosecondsSaved = 50,
     };
 
     public static TheoryData<string, string, Day20SolverOptions?> TestPart1Data { get; } = new()
@@ -26,9 +27,14 @@ public sealed class Day20Tests : BaseDayTests<Day20Solver, Day20SolverOptions>
     public void TestPart1(string inputFilename, string expectedResult, Day20SolverOptions? customOptions)
         => BaseTestPart1(inputFilename, expectedResult, customOptions);
 
+    public static TheoryData<string, string, Day20SolverOptions?> TestPart2Data { get; } = new()
+    {
+        { "example-input.txt", "285", ExampleOptions },
+        { "my-input.txt", "990096", null }
+    };
+
     [Theory]
-    [InlineData("example-input.txt", "", Skip = "Unsolved yet")]
-    [InlineData("my-input.txt", "", Skip = "Unsolved yet")]
-    public void TestPart2(string inputFilename, string expectedResult)
-        => BaseTestPart2(inputFilename, expectedResult);
+    [MemberData(nameof(TestPart2Data))]
+    public void TestPart2(string inputFilename, string expectedResult, Day20SolverOptions? customOptions)
+        => BaseTestPart2(inputFilename, expectedResult, customOptions);
 }

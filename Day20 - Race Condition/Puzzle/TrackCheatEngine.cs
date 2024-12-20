@@ -1,31 +1,29 @@
-﻿namespace AdventOfCode.Year2024.Day20.Puzzle;
+﻿using AdventOfCode.Common.Geometry;
+
+namespace AdventOfCode.Year2024.Day20.Puzzle;
 
 internal sealed class TrackCheatEngine(TrackMap trackMap, Dictionary<Point, int> distanceMap)
 {
     private readonly TrackMap _trackMap = trackMap;
     private readonly Dictionary<Point, int> _distanceMap = distanceMap;
 
-    public IEnumerable<Cheat> FindCheats()
+    public IEnumerable<Cheat> FindCheats(int maxDistance)
     {
-        int targetDistance = _distanceMap[_trackMap.EndPoint];
         var path = BuildPath();
 
         foreach (var point in path)
         {
-            int distance = _distanceMap[point];
-            foreach (var direction in Vectors.Directions)
+            int distanceFromPoint = _distanceMap[point];
+            foreach (var cheatEndPoint in point.GetAllPointsUpToDistance(maxDistance))
             {
-                var adjacentPoint = point + direction;
-                var twoStepsPoint = adjacentPoint + direction;
-                if (!_trackMap.CheckSpotIs(adjacentPoint, TrackSpot.Wall) ||
-                    !_trackMap.CheckSpotIs(twoStepsPoint, TrackSpot.Empty)) continue;
+                if (!_trackMap.CheckSpotIs(cheatEndPoint, TrackSpot.Empty)) continue;
 
-                int twoStepsDistance = _distanceMap[twoStepsPoint];
-                int cheatDistance = twoStepsDistance + 2;
-                int timeSaved = distance - cheatDistance;
+                int distanceAtCheatEnd = _distanceMap[cheatEndPoint];
+                int cheatDistanceFromPoint = distanceAtCheatEnd + MathG.ManhattanDistance(point, cheatEndPoint);
+                int timeSaved = distanceFromPoint - cheatDistanceFromPoint;
                 if (timeSaved > 0)
                 {
-                    yield return new(StartPoint: point, EndPoint: twoStepsPoint, TimeSaved: timeSaved);
+                    yield return new(StartPoint: point, EndPoint: cheatEndPoint, TimeSaved: timeSaved);
                 }
             }
         }
@@ -44,7 +42,7 @@ internal sealed class TrackCheatEngine(TrackMap trackMap, Dictionary<Point, int>
             var currentPoint = path[^1];
             int currentDistance = _distanceMap[currentPoint];
 
-            foreach (var direction in Vectors.Directions.AsSpan())
+            foreach (var direction in Vectors.StraightDirections.AsSpan())
             {
                 var adjacentPoint = currentPoint + direction;
                 if (!_distanceMap.TryGetValue(adjacentPoint, out int adjacentDistance) || adjacentDistance != currentDistance - 1)

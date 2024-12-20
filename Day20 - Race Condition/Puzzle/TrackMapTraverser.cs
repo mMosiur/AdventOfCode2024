@@ -20,7 +20,7 @@ internal sealed class TrackMapTraverser(TrackMap map)
 
             distances[state.Point] = state.Distance;
 
-            foreach (var direction in Vectors.Directions.AsSpan())
+            foreach (var direction in Vectors.StraightDirections.AsSpan())
             {
                 var adjacentPoint = state.Point + direction;
                 EnqueueIfProperPath(queue, adjacentPoint, state.Distance + 1);

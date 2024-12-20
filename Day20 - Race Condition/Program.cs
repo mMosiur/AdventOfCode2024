@@ -8,27 +8,38 @@ try
     {
         0 => null,
         1 => args[0],
-        2 => args[0],
+        3 => args[0],
         _ => throw new CommandLineException(
-            $"Program was called with too many arguments. Proper usage: \"dotnet run [<input filepath>] [<min picoseconds saved>]\"."
+            $"Program was called with too many arguments. Proper usage: \"dotnet run [<input filepath>] [<part one min picoseconds saved> <part two min picoseconds saved>]\"."
         )
     };
 
-    int? minPicosecondsSaved = null;
-    if (args.Length == 2)
+    int? partOneMinPicosecondsSaved = null;
+    int? partTwoMinPicosecondsSaved = null;
+    if (args.Length == 3)
     {
-        if (!int.TryParse(args[1], out int parsedMinPicosecondsSaved))
+        if (!int.TryParse(args[1], out int parsedPartOneMinPicosecondsSaved))
         {
-            throw new CommandLineException("Min picoseconds saved must be an integer.");
+            throw new CommandLineException("First Min picoseconds saved must be an integer.");
         }
 
-        minPicosecondsSaved = parsedMinPicosecondsSaved;
+        if (!int.TryParse(args[2], out int parsedPartTwoMinPicosecondsSaved))
+        {
+            throw new CommandLineException("Second Min picoseconds saved must be an integer.");
+        }
+
+        partOneMinPicosecondsSaved = parsedPartOneMinPicosecondsSaved;
+        partTwoMinPicosecondsSaved = parsedPartTwoMinPicosecondsSaved;
     }
 
     Day20Solver solver = new(options =>
     {
         options.InputFilepath = filepath ?? options.InputFilepath;
-        options.MinPicosecondsSaved = minPicosecondsSaved ?? options.MinPicosecondsSaved;
+        Console.WriteLine("Setting input filepath to: " + options.InputFilepath);
+        options.PartOneMinPicosecondsSaved = partOneMinPicosecondsSaved ?? options.PartOneMinPicosecondsSaved;
+        Console.WriteLine("Setting part one min picoseconds saved to: " + options.PartOneMinPicosecondsSaved);
+        options.PartTwoMinPicosecondsSaved = partTwoMinPicosecondsSaved ?? options.PartTwoMinPicosecondsSaved;
+        Console.WriteLine("Setting part two min picoseconds saved to: " + options.PartTwoMinPicosecondsSaved);
     });
 
     Console.WriteLine($"--- Day {solver.Day}: {solver.Title} ---");
