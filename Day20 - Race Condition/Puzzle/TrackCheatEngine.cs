@@ -2,10 +2,10 @@
 
 namespace AdventOfCode.Year2024.Day20.Puzzle;
 
-internal sealed class TrackCheatEngine(TrackMap trackMap, Dictionary<Point, int> distanceMap)
+internal sealed class TrackCheatEngine(TrackMap trackMap, DistanceMap distanceMap)
 {
     private readonly TrackMap _trackMap = trackMap;
-    private readonly Dictionary<Point, int> _distanceMap = distanceMap;
+    private readonly DistanceMap _distanceMap = distanceMap;
 
     public IEnumerable<Cheat> FindCheats(int maxDistance)
     {
@@ -13,12 +13,12 @@ internal sealed class TrackCheatEngine(TrackMap trackMap, Dictionary<Point, int>
 
         foreach (var point in path)
         {
-            int distanceFromPoint = _distanceMap[point];
+            int distanceFromPoint = _distanceMap[point]!.Value;
             foreach (var cheatEndPoint in point.GetAllPointsUpToDistance(maxDistance))
             {
                 if (!_trackMap.CheckSpotIs(cheatEndPoint, TrackSpot.Empty)) continue;
 
-                int distanceAtCheatEnd = _distanceMap[cheatEndPoint];
+                int distanceAtCheatEnd = _distanceMap[cheatEndPoint]!.Value;
                 int cheatDistanceFromPoint = distanceAtCheatEnd + MathG.ManhattanDistance(point, cheatEndPoint);
                 int timeSaved = distanceFromPoint - cheatDistanceFromPoint;
                 if (timeSaved > 0)
@@ -31,7 +31,7 @@ internal sealed class TrackCheatEngine(TrackMap trackMap, Dictionary<Point, int>
 
     private List<Point> BuildPath()
     {
-        int startDistance = _distanceMap[_trackMap.StartPoint];
+        int startDistance = _distanceMap[_trackMap.StartPoint]!.Value;
         var path = new List<Point>(startDistance + 1)
         {
             _trackMap.StartPoint
@@ -40,7 +40,7 @@ internal sealed class TrackCheatEngine(TrackMap trackMap, Dictionary<Point, int>
         while (path.Count <= startDistance)
         {
             var currentPoint = path[^1];
-            int currentDistance = _distanceMap[currentPoint];
+            int currentDistance = _distanceMap[currentPoint]!.Value;
 
             foreach (var direction in Vectors.StraightDirections.AsSpan())
             {

@@ -4,21 +4,22 @@ internal sealed class TrackMapTraverser(TrackMap map)
 {
     private readonly TrackMap _map = map;
 
-    public Dictionary<Point, int> BuildDistanceMap()
+    public DistanceMap BuildDistanceMap()
     {
-        var distances = new Dictionary<Point, int>();
+        int?[,] distances = new int?[_map.Bounds.YRange.Count, _map.Bounds.XRange.Count];
 
         var queue = new Queue<TraverseState>();
         queue.Enqueue(new(_map.EndPoint, 0));
 
         while (queue.TryDequeue(out var state))
         {
-            if (distances.TryGetValue(state.Point, out int existingDistance) && existingDistance <= state.Distance)
+            int? existingDistance = distances[state.Point.Y, state.Point.X];
+            if (existingDistance.HasValue && existingDistance <= state.Distance)
             {
                 continue;
             }
 
-            distances[state.Point] = state.Distance;
+            distances[state.Point.Y, state.Point.X] = state.Distance;
 
             foreach (var direction in Vectors.StraightDirections.AsSpan())
             {
@@ -27,7 +28,7 @@ internal sealed class TrackMapTraverser(TrackMap map)
             }
         }
 
-        return distances;
+        return new(distances);
     }
 
     private bool EnqueueIfProperPath(Queue<TraverseState> queue, Point point, int distance)
