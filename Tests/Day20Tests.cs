@@ -10,11 +10,21 @@ public sealed class Day20Tests : BaseDayTests<Day20Solver, Day20SolverOptions>
 
     protected override Day20Solver CreateSolver(Day20SolverOptions options) => new(options);
 
+    private static readonly Day20SolverOptions ExampleOptions = new()
+    {
+        MinPicosecondsSaved = 10,
+    };
+
+    public static TheoryData<string, string, Day20SolverOptions?> TestPart1Data { get; } = new()
+    {
+        { "example-input.txt", "10", ExampleOptions },
+        { "my-input.txt", "1393", null }
+    };
+
     [Theory]
-    [InlineData("example-input.txt", "", Skip = "Unsolved yet")]
-    [InlineData("my-input.txt", "", Skip = "Unsolved yet")]
-    public void TestPart1(string inputFilename, string expectedResult)
-        => BaseTestPart1(inputFilename, expectedResult);
+    [MemberData(nameof(TestPart1Data))]
+    public void TestPart1(string inputFilename, string expectedResult, Day20SolverOptions? customOptions)
+        => BaseTestPart1(inputFilename, expectedResult, customOptions);
 
     [Theory]
     [InlineData("example-input.txt", "", Skip = "Unsolved yet")]

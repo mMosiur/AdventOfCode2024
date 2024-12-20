@@ -8,14 +8,27 @@ try
     {
         0 => null,
         1 => args[0],
+        2 => args[0],
         _ => throw new CommandLineException(
-            $"Program was called with too many arguments. Proper usage: \"dotnet run [<input filepath>]\"."
+            $"Program was called with too many arguments. Proper usage: \"dotnet run [<input filepath>] [<min picoseconds saved>]\"."
         )
     };
+
+    int? minPicosecondsSaved = null;
+    if (args.Length == 2)
+    {
+        if (!int.TryParse(args[1], out int parsedMinPicosecondsSaved))
+        {
+            throw new CommandLineException("Min picoseconds saved must be an integer.");
+        }
+
+        minPicosecondsSaved = parsedMinPicosecondsSaved;
+    }
 
     Day20Solver solver = new(options =>
     {
         options.InputFilepath = filepath ?? options.InputFilepath;
+        options.MinPicosecondsSaved = minPicosecondsSaved ?? options.MinPicosecondsSaved;
     });
 
     Console.WriteLine($"--- Day {solver.Day}: {solver.Title} ---");
