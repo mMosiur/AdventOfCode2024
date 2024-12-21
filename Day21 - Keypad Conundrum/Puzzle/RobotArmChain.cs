@@ -1,21 +1,19 @@
-﻿using AdventOfCode.Year2024.Day21.Puzzle.Keypads;
-
-namespace AdventOfCode.Year2024.Day21.Puzzle;
+﻿namespace AdventOfCode.Year2024.Day21.Puzzle;
 
 internal sealed class RobotArmChain
 {
     private readonly NumericRobotArm _depressurizedAreaRobot;
 
-    public RobotArmChain()
+    public RobotArmChain(int directionalRobotCount)
     {
-        var historianRoomKeypad = new DirectionalKeypad(); // Controlling the freezing room robot
-        var freezingRoomKeypad = new DirectionalKeypad(); // Controlling the high radiation room robot
-        var highRadiationRoomKeypad = new DirectionalKeypad(); // Controlling the depressurized room robot
-        var depressurizedRoomKeypad = new NumericKeypad(); // The door keypad
+        DirectionalRobotArm? previousRobot = null;
+        for (int i = 0; i < directionalRobotCount; i++)
+        {
+            var nextRobot = new DirectionalRobotArm(new(), previousRobot);
+            previousRobot = nextRobot;
+        }
 
-        var freezingAreaRobot = new DirectionalRobotArm(freezingRoomKeypad);
-        var highRadiationAreaRobot = new DirectionalRobotArm(highRadiationRoomKeypad, freezingAreaRobot);
-        _depressurizedAreaRobot = new NumericRobotArm(depressurizedRoomKeypad, highRadiationAreaRobot);
+        _depressurizedAreaRobot = new NumericRobotArm(new(), previousRobot);
     }
 
     public long CalculateComplexity(DoorCode doorCode)

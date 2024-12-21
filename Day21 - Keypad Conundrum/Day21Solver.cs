@@ -26,7 +26,7 @@ public sealed class Day21Solver : DaySolver<Day21SolverOptions>
 
     public override string SolvePart1()
     {
-        var robotArmChain = new RobotArmChain();
+        var robotArmChain = new RobotArmChain(Options.PartOneIntermediateRobotCount);
 
         long codeComplexitySum = _doorCodes
             .Sum(doorCode => robotArmChain.CalculateComplexity(doorCode));
@@ -36,6 +36,11 @@ public sealed class Day21Solver : DaySolver<Day21SolverOptions>
 
     public override string SolvePart2()
     {
-        return "UNSOLVED";
+        var robotArmChain = new RobotArmChain(Options.PartTwoIntermediateRobotCount);
+
+        long codeComplexitySum = _doorCodes
+            .Sum(doorCode => robotArmChain.CalculateComplexity(doorCode));
+
+        return codeComplexitySum.ToString();
     }
 }

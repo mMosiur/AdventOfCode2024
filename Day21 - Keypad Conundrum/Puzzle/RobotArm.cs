@@ -8,6 +8,7 @@ internal class RobotArm<TKeypad>(TKeypad keypad, DirectionalRobotArm? steeringRo
     private readonly TKeypad _keypad = keypad;
     private readonly KeypadPathFinder _pathFinder = new(keypad);
     private readonly DirectionalRobotArm? _steeringRobotArm = steeringRobotArm;
+    private readonly Dictionary<(Point, KeypadButton), RobotArmKeyPressesCachedState> _pressCountCache = new();
 
     public Point ArmPosition { get; private set; } = keypad.GetPositionOfButton(KeypadButton.Activate);
 
@@ -17,6 +18,22 @@ internal class RobotArm<TKeypad>(TKeypad keypad, DirectionalRobotArm? steeringRo
     }
 
     public long PressButtonCountingHumanPresses(KeypadButton button)
+    {
+        var cacheKey = (ArmPosition, button);
+
+        if (_pressCountCache.TryGetValue(cacheKey, out var cachedState))
+        {
+            ApplyCacheState(cachedState.RobotArmState);
+            return cachedState.KeyPressCount;
+        }
+
+        long keyPressCount = PressButtonCountingHumanPressesInternal(button);
+
+        _pressCountCache[cacheKey] = new(GetCacheState(), keyPressCount);
+        return keyPressCount;
+    }
+
+    private long PressButtonCountingHumanPressesInternal(KeypadButton button)
     {
         if (button is KeypadButton.Gap) throw new("Cannot press a gap");
         var targetPosition = _keypad.GetPositionOfButton(button);
@@ -46,6 +63,14 @@ internal class RobotArm<TKeypad>(TKeypad keypad, DirectionalRobotArm? steeringRo
             ? pathToKey.Count
             : pathToKey.Sum(b => _steeringRobotArm.PressButtonWithCounting(b));
     }
+
+    private RobotArmCachedState GetCacheState() => new(ArmPosition, _steeringRobotArm?.GetCacheState());
+
+    private void ApplyCacheState(RobotArmCachedState state)
+    {
+        ArmPosition = state.ArmPosition;
+        _steeringRobotArm?.ApplyCacheState(state.SteeringRobotState!);
+    }
 }
 
 internal sealed class NumericRobotArm(NumericKeypad keypad, DirectionalRobotArm? steeringRobotArm = null)
@@ -57,3 +82,7 @@ internal sealed class DirectionalRobotArm(DirectionalKeypad keypad, DirectionalR
     public long PressButtonWithCounting(DirectionalKeypadButton button)
         => PressButtonCountingHumanPresses((KeypadButton)button);
 }
+
+internal sealed record RobotArmKeyPressesCachedState(RobotArmCachedState RobotArmState, long KeyPressCount);
+
+internal sealed record RobotArmCachedState(Point ArmPosition, RobotArmCachedState? SteeringRobotState = null);
