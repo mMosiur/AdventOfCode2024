@@ -48,6 +48,7 @@
     <ProjectReference Include="..\Day18 - RAM Run\Day18.csproj" />
     <ProjectReference Include="..\Day19 - Linen Layout\Day19.csproj" />
     <ProjectReference Include="..\Day20 - Race Condition\Day20.csproj" />
+    <ProjectReference Include="..\Day21 - Keypad Conundrum\Day21.csproj" />
   </ItemGroup>
 
 </Project>
