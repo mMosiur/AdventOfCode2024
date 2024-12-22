@@ -36,6 +36,15 @@ public sealed class Day22Solver : DaySolver<Day22SolverOptions>
 
     public override string SolvePart2()
     {
-        return "UNSOLVED";
+        int sequenceCount = 0;
+        foreach (int secretNumber in _initialSecretNumbers)
+        {
+            var sg = new SecretGenerator(secretNumber);
+            var pt = new PriceTracker(sg);
+            var priceChanges = pt.CalculatePriceChanges(2000);
+            var sequences = PriceTracker.EnumeratePriceChangeSequences(priceChanges).ToArray();
+            sequenceCount += sequences.Length;
+        }
+        return $"Sequences: {sequenceCount}";
     }
 }
