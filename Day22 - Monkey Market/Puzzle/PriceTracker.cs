@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace AdventOfCode.Year2024.Day22.Puzzle;
+﻿namespace AdventOfCode.Year2024.Day22.Puzzle;
 
 internal sealed class PriceTracker(SecretGenerator secretGenerator)
 {
@@ -9,13 +7,14 @@ internal sealed class PriceTracker(SecretGenerator secretGenerator)
     public PriceChange[] CalculatePriceChanges(int priceChangeCount)
     {
         var priceChanges = new PriceChange[priceChangeCount];
-        byte currentPrice = GetCurrentPrice();
+        byte previousPrice = GetCurrentPrice();
         for (int i = 0; i < priceChangeCount; i++)
         {
             _secretGenerator.NextSecret();
             byte newPrice = GetCurrentPrice();
-            priceChanges[i] = new((sbyte)(newPrice - currentPrice));// PriceChange.FromPrices(currentPrice, newPrice);
-            currentPrice = newPrice;
+            sbyte changeValue = (sbyte)(newPrice - previousPrice);
+            priceChanges[i] = new(changeValue, newPrice);
+            previousPrice = newPrice;
         }
 
         return priceChanges;
@@ -26,42 +25,38 @@ internal sealed class PriceTracker(SecretGenerator secretGenerator)
         return (byte)(_secretGenerator.CurrentSecret % 10);
     }
 
-    public static IEnumerable<PriceChangeSequence> EnumeratePriceChangeSequences(PriceChange[] priceChanges)
+    public IEnumerable<(PriceChangeValueSequence Sequence, byte EndPrice)> EnumeratePriceChangeSequences(PriceChange[] priceChanges)
     {
-        for (int i = 0; i < priceChanges.Length - 3; i++)
+        for (int i = 0; i < priceChanges.Length - PriceChangeValueSequence.Length + 1; i++)
         {
-            yield return new(priceChanges.AsSpan().Slice(i, 4));
+            var sequence = new PriceChangeValueSequence(priceChanges.AsSpan().Slice(i, PriceChangeValueSequence.Length));
+            byte endPrice = priceChanges[i + PriceChangeValueSequence.Length - 1].PriceAfterChange;
+            yield return (sequence, endPrice);
         }
     }
 }
 
-// internal readonly record struct PriceChange(sbyte Change, byte PriceAfter)
-// {
-//     public static PriceChange FromPrices(byte priceBefore, byte priceAfter)
-//         => new((sbyte)(priceAfter - priceBefore), priceAfter);
-// }
+internal readonly record struct PriceChange(sbyte Change, byte PriceAfterChange);
 
-internal readonly record struct PriceChange(sbyte Change)
+internal readonly record struct PriceChangeValueSequence(sbyte PriceChange0, sbyte PriceChange1, sbyte PriceChange2, sbyte PriceChange3)
 {
-}
+    public const int Length = 4;
 
-internal readonly record struct PriceChangeSequence(PriceChange PriceChange0, PriceChange PriceChange1, PriceChange PriceChange2, PriceChange PriceChange3)
-{
-    public PriceChangeSequence(ReadOnlySpan<PriceChange> priceChanges)
-        : this(priceChanges[0], priceChanges[1], priceChanges[2], priceChanges[3])
+    public PriceChangeValueSequence(ReadOnlySpan<PriceChange> priceChanges)
+        : this(priceChanges[0].Change, priceChanges[1].Change, priceChanges[2].Change, priceChanges[3].Change)
     {
     }
 
     public override int GetHashCode()
     {
         int baseHash = 1;
-        baseHash += PriceChange0.Change + 9;
+        baseHash += PriceChange0 + 9;
         baseHash <<= 5;
-        baseHash += PriceChange1.Change + 9;
+        baseHash += PriceChange1 + 9;
         baseHash <<= 5;
-        baseHash += PriceChange2.Change + 9;
+        baseHash += PriceChange2 + 9;
         baseHash <<= 5;
-        baseHash += PriceChange3.Change + 9;
+        baseHash += PriceChange3 + 9;
         return baseHash;
     }
 }

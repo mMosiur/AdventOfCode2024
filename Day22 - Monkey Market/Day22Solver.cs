@@ -36,15 +36,28 @@ public sealed class Day22Solver : DaySolver<Day22SolverOptions>
 
     public override string SolvePart2()
     {
-        int sequenceCount = 0;
-        foreach (int secretNumber in _initialSecretNumbers)
+        var uniqueSequences = new HashSet<PriceChangeValueSequence>();
+        var sequencePrices = new Dictionary<PriceChangeValueSequence, byte>[_initialSecretNumbers.Length];
+        for (int i = 0; i < _initialSecretNumbers.Length; i++)
         {
-            var sg = new SecretGenerator(secretNumber);
-            var pt = new PriceTracker(sg);
-            var priceChanges = pt.CalculatePriceChanges(2000);
-            var sequences = PriceTracker.EnumeratePriceChangeSequences(priceChanges).ToArray();
-            sequenceCount += sequences.Length;
+            int secretNumber = _initialSecretNumbers[i];
+            sequencePrices[i] = new();
+            var secretGenerator = new SecretGenerator(secretNumber);
+            var priceTracker = new PriceTracker(secretGenerator);
+            var priceChanges = priceTracker.CalculatePriceChanges(2000);
+            foreach (var (sequence, endPrice) in priceTracker.EnumeratePriceChangeSequences(priceChanges))
+            {
+                if (sequencePrices[i].TryAdd(sequence, endPrice))
+                {
+                    uniqueSequences.Add(sequence);
+                }
+            }
         }
-        return $"Sequences: {sequenceCount}";
+
+        long result = uniqueSequences
+            .Select(seq => sequencePrices.Sum(sp => sp.GetValueOrDefault(seq, (byte)0)))
+            .Max();
+
+        return result.ToString();
     }
 }
