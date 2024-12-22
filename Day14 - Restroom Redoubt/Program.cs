@@ -10,9 +10,16 @@ try
         1 => args[0],
         3 => args[0],
         _ => throw new CommandLineException(
-            $"Program was called with too many arguments. Proper usage: \"dotnet run [<input filepath>] [<bathroom width> <bathroom height>]\"."
+            $"Program was called with too many arguments. Proper usage: \"dotnet run [<input filepath> | generate] [<bathroom width> <bathroom height>]\"."
         )
     };
+
+    bool? generateImages = null;
+    if ("generate".Equals(filepath, StringComparison.OrdinalIgnoreCase))
+    {
+        filepath = null;
+        generateImages = true;
+    }
 
     int? bathroomWidth;
     int? bathroomHeight;
@@ -37,6 +44,7 @@ try
         options.InputFilepath = filepath ?? options.InputFilepath;
         options.BathroomWidth = bathroomWidth ?? options.BathroomWidth;
         options.BathroomHeight = bathroomHeight ?? options.BathroomHeight;
+        options.GenerateImages = generateImages ?? options.GenerateImages;
     });
 
     Console.WriteLine($"--- Day {solver.Day}: {solver.Title} ---");

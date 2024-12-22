@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿using SkiaSharp;
 
 namespace AdventOfCode.Year2024.Day14.Puzzle;
 
@@ -7,37 +7,33 @@ internal sealed class BathroomImager(Bathroom bathroom, string folderName)
     private readonly Bathroom _bathroom = bathroom;
     private readonly string _folderName = folderName;
 
-    public void SimulateSecondsWithImages(int seconds)
+    public void PrepareFolder()
     {
-        PrepareFolder();
-        for (int i = 1; i <= seconds; i++)
+        if (Directory.Exists(_folderName))
         {
-            _bathroom.SimulateSecond();
-            int imageIndex = _bathroom.SecondsPassed;
-            GenerateImage($"bathroom_{imageIndex}.bmp");
+            Directory.Delete(_folderName, recursive: true);
         }
-    }
 
-    private void PrepareFolder()
-    {
         Directory.CreateDirectory(_folderName);
-        // delete all files in the folder
-        foreach (var file in Directory.EnumerateFiles(_folderName))
-        {
-            File.Delete(file);
-        }
     }
 
-
-#pragma warning disable CA1416 // Temporary solution that works on Windows, later fixes should avoid image file generation
-    private void GenerateImage(string filename)
+    public void GenerateImage(string filenameWithoutExtension)
     {
-        using Bitmap image = new(_bathroom.Width, _bathroom.Height);
-        foreach (var robot in _bathroom.Robots)
+        using var image = new SKBitmap(_bathroom.Width, _bathroom.Height);
+        using (var paint = new SKPaint())
         {
-            image.SetPixel(robot.Position.X, robot.Position.Y, Color.White);
+            paint.Color = SKColors.White;
+            paint.BlendMode = SKBlendMode.Src;
+            using (SKCanvas canvas = new(image))
+            {
+                foreach (var robot in _bathroom.Robots)
+                {
+                    canvas.DrawPoint(robot.Position.X, robot.Position.Y, paint);
+                }
+            }
         }
-        image.Save($"{_folderName}/{filename}");
+
+        using var stream = File.OpenWrite($"{_folderName}/{filenameWithoutExtension}.bmp");
+        image.Encode(stream, SKEncodedImageFormat.Bmp, 100);
     }
-#pragma warning restore CA1416
 }
