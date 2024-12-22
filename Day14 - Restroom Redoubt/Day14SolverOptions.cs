@@ -6,4 +6,6 @@ public sealed class Day14SolverOptions : DaySolverOptions
 {
     public int BathroomWidth { get; set; } = 101;
     public int BathroomHeight { get; set; } = 103;
+
+    public bool GenerateImages { get; set; } = false;
 }

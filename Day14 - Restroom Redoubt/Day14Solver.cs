@@ -41,9 +41,34 @@ public sealed class Day14Solver : DaySolver<Day14SolverOptions>
             return "Bathroom is too small to contain christmas tree at any point.";
         }
 
-        const string imagesFolder = "images";
-        var bathroomImager = new BathroomImager(_bathroom, imagesFolder);
-        bathroomImager.SimulateSecondsWithImages(10_000);
-        return $"Look for christmas tree in folder \"{imagesFolder}\".";
+        // We can operate under the assumption that the Christmas tres will have safety factor very low,
+        // as a lot of pixels will be concentrated in one place around the tree center.
+
+        var bathroomImager = CreateBathroomImagerIfRequested("images");
+        bathroomImager?.PrepareFolder();
+
+        int minSafetyFactor = int.MaxValue;
+        int minSafetyFactorIndex = -1;
+        for (int i = _bathroom.SecondsPassed + 1; i <= 10_000; i++)
+        {
+            _bathroom.SimulateSecond();
+
+            bathroomImager?.GenerateImage(filenameWithoutExtension: $"bathroom_{i}");
+
+            int safetyFactor = _bathroom.SafetyFactor();
+            if (safetyFactor >= minSafetyFactor) continue;
+
+            minSafetyFactor = safetyFactor;
+            minSafetyFactorIndex = i; // Seconds passed to get that minimum safety factor
+        }
+
+        return minSafetyFactorIndex.ToString();
+    }
+
+    private BathroomImager? CreateBathroomImagerIfRequested(string folderName)
+    {
+        return Options.GenerateImages
+            ? new BathroomImager(_bathroom, folderName)
+            : null;
     }
 }
