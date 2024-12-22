@@ -4,7 +4,21 @@ internal sealed class PriceTracker(SecretGenerator secretGenerator)
 {
     private readonly SecretGenerator _secretGenerator = secretGenerator;
 
-    public PriceChange[] CalculatePriceChanges(int priceChangeCount)
+    public PriceAfterChangeSequence[] CalculatePriceChangeSequences(int priceChangeCount)
+    {
+        var priceChanges = CalculatePriceChanges(priceChangeCount);
+        var sequences = new PriceAfterChangeSequence[priceChangeCount - PriceChangeValueSequence.Length + 1];
+        for (int i = 0; i < priceChangeCount - PriceChangeValueSequence.Length + 1; i++)
+        {
+            var sequence = new PriceChangeValueSequence(priceChanges.AsSpan().Slice(i, PriceChangeValueSequence.Length));
+            byte endPrice = priceChanges[i + PriceChangeValueSequence.Length - 1].PriceAfterChange;
+            sequences[i] = new(sequence, endPrice);
+        }
+
+        return sequences;
+    }
+
+    private PriceChange[] CalculatePriceChanges(int priceChangeCount)
     {
         var priceChanges = new PriceChange[priceChangeCount];
         byte previousPrice = GetCurrentPrice();
@@ -23,16 +37,6 @@ internal sealed class PriceTracker(SecretGenerator secretGenerator)
     private byte GetCurrentPrice()
     {
         return (byte)(_secretGenerator.CurrentSecret % 10);
-    }
-
-    public IEnumerable<(PriceChangeValueSequence Sequence, byte EndPrice)> EnumeratePriceChangeSequences(PriceChange[] priceChanges)
-    {
-        for (int i = 0; i < priceChanges.Length - PriceChangeValueSequence.Length + 1; i++)
-        {
-            var sequence = new PriceChangeValueSequence(priceChanges.AsSpan().Slice(i, PriceChangeValueSequence.Length));
-            byte endPrice = priceChanges[i + PriceChangeValueSequence.Length - 1].PriceAfterChange;
-            yield return (sequence, endPrice);
-        }
     }
 }
 
@@ -60,3 +64,5 @@ internal readonly record struct PriceChangeValueSequence(sbyte PriceChange0, sby
         return baseHash;
     }
 }
+
+internal readonly record struct PriceAfterChangeSequence(PriceChangeValueSequence Sequence, byte EndPrice);
