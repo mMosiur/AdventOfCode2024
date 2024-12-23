@@ -14,4 +14,9 @@ internal readonly record struct ThreeComputerSet
         Computer2 = computersSpan[1];
         Computer3 = computersSpan[2];
     }
+
+    public bool Any(Func<Computer, bool> predicate)
+    {
+        return predicate(Computer1) || predicate(Computer2) || predicate(Computer3);
+    }
 }

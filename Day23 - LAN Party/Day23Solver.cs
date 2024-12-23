@@ -28,9 +28,12 @@ public sealed class Day23Solver : DaySolver<Day23SolverOptions>
     public override string SolvePart1()
     {
         var connectionAnalyzer = new ConnectionAnalyzer(_connectionMap);
-        var triosWithPrefixedComputer = connectionAnalyzer.FindTriosWithPrefixedComputer(Options.PartOneComputerPrefix);
 
-        return triosWithPrefixedComputer.Count.ToString();
+        var interconnectedTrios = connectionAnalyzer.FindInterconnectedTrios();
+        int triosWithPrefixedComputerCount = interconnectedTrios
+            .Count(t => t.Any(c => c.Name.StartsWith(Options.PartOneComputerPrefix)));
+
+        return triosWithPrefixedComputerCount.ToString();
     }
 
     public override string SolvePart2()

@@ -4,10 +4,10 @@ internal sealed class ConnectionAnalyzer(ConnectionMap connectionMap)
 {
     private readonly ConnectionMap _connectionMap = connectionMap;
 
-    public HashSet<ThreeComputerSet> FindTriosWithPrefixedComputer(string requiredComputerPrefix)
+    public HashSet<ThreeComputerSet> FindInterconnectedTrios()
     {
         HashSet<ThreeComputerSet> computerTrios = [];
-        foreach ((Computer firstComputer, var firstComputerConnections) in _connectionMap.Map.Where(kvp => kvp.Key.Name.StartsWith(requiredComputerPrefix)))
+        foreach ((Computer firstComputer, var firstComputerConnections) in _connectionMap.Map)
         {
             foreach (Computer secondComputer in firstComputerConnections)
             {
