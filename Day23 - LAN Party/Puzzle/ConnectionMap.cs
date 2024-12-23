@@ -1,19 +1,24 @@
-﻿namespace AdventOfCode.Year2024.Day23.Puzzle;
+﻿using System.Collections;
 
-internal sealed class ConnectionMap
+namespace AdventOfCode.Year2024.Day23.Puzzle;
+
+internal sealed class ConnectionMap : IEnumerable<KeyValuePair<Computer, HashSet<Computer>>>
 {
-    private readonly Dictionary<Computer, List<Computer>> _map;
+    private readonly Dictionary<Computer, HashSet<Computer>> _map;
 
-    public IReadOnlyDictionary<Computer, List<Computer>> Map => _map;
-
-    private ConnectionMap(Dictionary<Computer, List<Computer>> map)
+    private ConnectionMap(Dictionary<Computer, HashSet<Computer>> map)
     {
         _map = map;
     }
 
+    public HashSet<Computer> this[Computer key] => _map[key];
+
+    public IEnumerator<KeyValuePair<Computer, HashSet<Computer>>> GetEnumerator() => _map.GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
     public static ConnectionMap Create(IReadOnlyList<ComputerConnection> connections)
     {
-        var map = new Dictionary<Computer, List<Computer>>();
+        var map = new Dictionary<Computer, HashSet<Computer>>();
         foreach (var connection in connections)
         {
             if (!map.TryGetValue(connection.Computer1, out var computer1Connections))

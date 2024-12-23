@@ -1,6 +1,8 @@
-﻿namespace AdventOfCode.Year2024.Day23.Puzzle;
+﻿using System.Collections;
 
-internal readonly record struct ThreeComputerSet
+namespace AdventOfCode.Year2024.Day23.Puzzle;
+
+internal readonly record struct ThreeComputerSet : IEnumerable<Computer>
 {
     public Computer Computer1 { get; }
     public Computer Computer2 { get; }
@@ -19,4 +21,14 @@ internal readonly record struct ThreeComputerSet
     {
         return predicate(Computer1) || predicate(Computer2) || predicate(Computer3);
     }
+
+
+    public IEnumerator<Computer> GetEnumerator()
+    {
+        yield return Computer1;
+        yield return Computer2;
+        yield return Computer3;
+    }
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
