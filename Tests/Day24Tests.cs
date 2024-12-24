@@ -18,9 +18,7 @@ public sealed class Day24Tests : BaseDayTests<Day24Solver, Day24SolverOptions>
         => BaseTestPart1(inputFilename, expectedResult);
 
     [Theory]
-    [InlineData("example-input-1.txt", "", Skip = "Unsolved yet")]
-    [InlineData("example-input-2.txt", "", Skip = "Unsolved yet")]
-    [InlineData("my-input.txt", "", Skip = "Unsolved yet")]
+    [InlineData("my-input.txt", "cgr,hpc,hwk,qmd,tnt,z06,z31,z37", Skip = "Unsolved yet")]
     public void TestPart2(string inputFilename, string expectedResult)
         => BaseTestPart2(inputFilename, expectedResult);
 }

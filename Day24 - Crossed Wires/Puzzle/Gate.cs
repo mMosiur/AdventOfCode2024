@@ -2,10 +2,12 @@
 
 internal sealed class Gate(GateType type, Wire wireIn1, Wire wireIn2, Wire wireOut)
 {
-    public GateType Type { get; } = type;
-    public Wire WireIn1 { get; } = wireIn1;
-    public Wire WireIn2 { get; } = wireIn2;
-    public Wire WireOut { get; } = wireOut;
+    public GateType Type { get; set; } = type;
+    public Wire WireIn1 { get; set; } = wireIn1;
+    public Wire WireIn2 { get; set; } = wireIn2;
+    public Wire WireOut { get; set; } = wireOut;
+
+    public GateInfo GetInfo() => new(WireIn1, Type, WireIn2);
 
     public bool Execute()
     {
@@ -22,6 +24,8 @@ internal sealed class Gate(GateType type, Wire wireIn1, Wire wireIn2, Wire wireO
         return true;
     }
 }
+
+internal readonly record struct GateInfo(Wire WireIn1, GateType GateType, Wire WireIn2);
 
 internal enum GateType
 {

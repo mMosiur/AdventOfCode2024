@@ -2,7 +2,7 @@
 
 internal sealed class Wire(string name, bool initialValue = false)
 {
-    public string Name { get; } = name;
+    public string Name { get; set; } = name;
     public bool Value { get; set; } = initialValue;
 
     public override string ToString() => $"{Name}: {Value}";
