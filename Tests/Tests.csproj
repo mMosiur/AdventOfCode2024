@@ -52,6 +52,7 @@
     <ProjectReference Include="..\Day22 - Monkey Market\Day22.csproj" />
     <ProjectReference Include="..\Day23 - LAN Party\Day23.csproj" />
     <ProjectReference Include="..\Day24 - Crossed Wires\Day24.csproj" />
+    <ProjectReference Include="..\Day25 - Code Chronicle\Day25.csproj" />
   </ItemGroup>
 
 </Project>
