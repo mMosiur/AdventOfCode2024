@@ -23,10 +23,6 @@ try
     Console.Write("Part one: ");
     string part1 = solver.SolvePart1();
     Console.WriteLine(part1);
-
-    Console.Write("Part two: ");
-    string part2 = solver.SolvePart2();
-    Console.WriteLine(part2);
 }
 catch (AdventOfCodeException e)
 {
