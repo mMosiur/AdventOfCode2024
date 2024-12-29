@@ -6,7 +6,7 @@ namespace AdventOfCode.Year2024.Day24.Puzzle;
 
 internal static partial class InputReader
 {
-    public static (Dictionary<string, Wire> Wires, List<Gate> Gates) Read(IEnumerable<string> inputLines)
+    public static Circuit Read(IEnumerable<string> inputLines)
     {
         try
         {
@@ -30,7 +30,7 @@ internal static partial class InputReader
                 if (!it.MoveNext()) break;
             }
 
-            return (wires, gates);
+            return Circuit.Build(wires.Values, gates);
         }
         catch (InvalidOperationException e)
         {
@@ -49,8 +49,14 @@ internal static partial class InputReader
             throw new InputException($"Invalid input wire line: '{line}'");
         }
 
+        bool value = match.Groups[2].ValueSpan switch
+        {
+            "0" => false,
+            "1" => true,
+            _ => throw new InputException($"Invalid input wire value: '{match.Groups[2].Value}'")
+        };
 
-        var wire = new Wire(match.Groups[1].Value, match.Groups[2].ValueSpan is "1");
+        var wire = new Wire(match.Groups[1].Value, value);
         return wire;
     }
 
@@ -74,7 +80,8 @@ internal static partial class InputReader
         var wireIn2 = GetOrCreateWire(match.Groups[3].Value, wires);
         var wireOut = GetOrCreateWire(match.Groups[4].Value, wires);
 
-        var gate = new Gate(gateType, wireIn1, wireIn2, wireOut);
+        var gate = Gate.Create(gateType, wireIn1, wireIn2, wireOut);
+        wireOut.AttachToInput(gate);
         return gate;
     }
 
